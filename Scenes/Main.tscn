@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=3 uid="uid://21sha6w3vqdx"]
+
+[ext_resource type="Script" path="res://Scripts/Cube.cs" id="1_2fvmn"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_3nrcx"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_2lgxi"]
+sky_material = SubResource("ProceduralSkyMaterial_3nrcx")
+
+[sub_resource type="Environment" id="Environment_dm1ru"]
+background_mode = 2
+sky = SubResource("Sky_2lgxi")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_t4cbu"]
+
+[node name="Node" type="Node"]
+
+[node name="Sun" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 5, 5, 5)
+shadow_enabled = true
+
+[node name="Skybox" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_dm1ru")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.815956, 0.578114, 0, -0.578114, 0.815956, 0, 2.0192, 3.21086)
+
+[node name="Cube" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_t4cbu")
+script = ExtResource("1_2fvmn")
