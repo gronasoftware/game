@@ -112,9 +112,10 @@ shadow_enabled = true
 environment = SubResource("Environment_eemnm")
 
 [node name="Cube" type="StaticBody3D" parent="."]
-transform = Transform3D(0.630005, 0, 0.305113, 0, 0.7, 0, -0.305113, 0, 0.630005, 0, 0.316077, -1.8136)
+transform = Transform3D(1.08001, 0, 0.523051, 0, 1.2, 0, -0.523051, 0, 1.08001, 0, 0.552223, -1.8136)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Cube"]
+transform = Transform3D(1, 0, 2.98023e-08, 0, 1, 0, -2.98023e-08, 0, 1, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_dvau2")
 mesh = SubResource("BoxMesh_66goc")
 
@@ -122,7 +123,7 @@ mesh = SubResource("BoxMesh_66goc")
 shape = SubResource("BoxShape3D_sxrj1")
 
 [node name="Cube2" type="StaticBody3D" parent="."]
-transform = Transform3D(0.426941, 0, 0.0511969, 0, 0.43, 0, -0.0511969, 0, 0.426941, -1.85528, 0.182561, -0.841003)
+transform = Transform3D(0.595732, 0, 0.0714376, 0, 0.6, 0, -0.0714376, 0, 0.595732, -1.85528, 0.273015, -0.841003)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Cube2"]
 transform = Transform3D(1, 0, 2.23517e-08, 0, 1, 0, -2.23517e-08, 0, 1, 0, 0, 0)
@@ -130,14 +131,16 @@ material_override = SubResource("StandardMaterial3D_3k4hi")
 mesh = SubResource("BoxMesh_66goc")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Cube2"]
+transform = Transform3D(1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, 0, 0, 0)
 shape = SubResource("BoxShape3D_sxrj1")
 
 [node name="Cube3" type="StaticBody3D" parent="."]
-transform = Transform3D(0.429626, 0, 0.0179315, 0, 0.43, 0, -0.0179315, 0, 0.429626, 0.482605, 0.183779, -1.49145)
+transform = Transform3D(0.799304, 0, 0.0333609, 0, 0.8, 0, -0.0333609, 0, 0.799304, 1.05719, 0.368006, -1.23064)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Cube3"]
 material_override = SubResource("StandardMaterial3D_b2hjq")
 mesh = SubResource("BoxMesh_66goc")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Cube3"]
+transform = Transform3D(1, 0, 3.72529e-09, 0, 1, 0, -3.72529e-09, 0, 1, 0, 0, 0)
 shape = SubResource("BoxShape3D_sxrj1")
