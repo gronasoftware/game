@@ -57,9 +57,6 @@ surface_material_override/0 = SubResource("StandardMaterial3D_axk2j")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
 shape = SubResource("BoxShape3D_rdkxd")
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.969838, 0.24375, 0, -0.24375, 0.969838, 0, 0.683593, 1.94237)
-
 [node name="Wall" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0)
 
@@ -118,12 +115,10 @@ environment = SubResource("Environment_eemnm")
 transform = Transform3D(0.630005, 0, 0.305113, 0, 0.7, 0, -0.305113, 0, 0.630005, 0, 0.316077, -1.8136)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Cube"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_dvau2")
 mesh = SubResource("BoxMesh_66goc")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Cube"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 shape = SubResource("BoxShape3D_sxrj1")
 
 [node name="Cube2" type="StaticBody3D" parent="."]
