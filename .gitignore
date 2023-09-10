@@ -4,3 +4,4 @@
 # .NET stuff
 *.csproj
 *.sln
+.vs/

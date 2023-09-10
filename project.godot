@@ -18,3 +18,14 @@ config/icon="res://icon.svg"
 [dotnet]
 
 project/assembly_name="Game"
+
+[layer_names]
+
+3d_render/layer_1="Layer 1"
+
+[rendering]
+
+lights_and_shadows/directional_shadow/size=8192
+lights_and_shadows/directional_shadow/16_bits=false
+anti_aliasing/quality/msaa_3d=2
+anti_aliasing/quality/screen_space_aa=1

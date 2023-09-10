@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://bwhhd4q0i02on"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_va4d6"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_skkvt"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wje11"]
+albedo_color = Color(0.498039, 0.505882, 1, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_avhog"]
+albedo_color = Color(0.458824, 0.733333, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r7tb4"]
+albedo_color = Color(1, 0, 0, 1)
+
+[node name="Tiles" type="Node3D"]
+
+[node name="Room" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_va4d6")
+surface_material_override/0 = SubResource("StandardMaterial3D_skkvt")
+
+[node name="Corridor" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.85429, 0, 0)
+mesh = SubResource("BoxMesh_va4d6")
+skeleton = NodePath("../Room")
+surface_material_override/0 = SubResource("StandardMaterial3D_wje11")
+
+[node name="Door" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.70858, 0, 0)
+mesh = SubResource("BoxMesh_va4d6")
+skeleton = NodePath("../Room")
+surface_material_override/0 = SubResource("StandardMaterial3D_avhog")
+
+[node name="Border" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.79165, 0, 0)
+mesh = SubResource("BoxMesh_va4d6")
+skeleton = NodePath("../Room")
+surface_material_override/0 = SubResource("StandardMaterial3D_r7tb4")
