@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://21sha6w3vqdx"]
+[gd_scene load_steps=7 format=3 uid="uid://21sha6w3vqdx"]
 
 [ext_resource type="Script" path="res://Scripts/Cube.cs" id="1_2fvmn"]
+[ext_resource type="PackedScene" uid="uid://csgjrwgkd02h8" path="res://Scenes/Player.tscn" id="2_orel7"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_3nrcx"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -27,8 +28,11 @@ shadow_enabled = true
 environment = SubResource("Environment_dm1ru")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.815956, 0.578114, 0, -0.578114, 0.815956, 0, 2.0192, 3.21086)
+transform = Transform3D(1, 0, 0, 0, 0.230525, 0.973066, 0, -0.973066, 0.230525, 0, 6.0674, 0.892868)
 
 [node name="Cube" type="MeshInstance3D" parent="."]
+visible = false
 mesh = SubResource("BoxMesh_t4cbu")
 script = ExtResource("1_2fvmn")
+
+[node name="Player" parent="." instance=ExtResource("2_orel7")]

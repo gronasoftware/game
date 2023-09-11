@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://csgjrwgkd02h8"]
+
+[ext_resource type="Script" path="res://Scripts/Player.cs" id="1_jfkhu"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_n24ir"]
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_jfkhu")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_n24ir")
+
+[node name="Body" type="Node3D" parent="."]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Body"]
