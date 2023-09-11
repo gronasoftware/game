@@ -18,19 +18,11 @@ public partial class Player : CharacterBody3D
 		);
 
 		Vector3 mousePosition3D = _mousePosition3D ?? Vector3.Zero;
-		GD.Print(Transform.Origin);
 
 		// Rotate to face the mouse.
 		Vector3 lookAt = mousePosition3D - Transform.Origin;
 		lookAt.Y = 0;
-		//GD.Print(Transform);
 		Transform = Transform.LookingAt(lookAt, Vector3.Up);
-		//GD.Print(Transform);
-
-		//if (Input.IsActionPressed("ui_right"))
-		//{
-		//	Rotate(Vector3.Up, 2 * (float)delta);
-		//}
 
 		Vector2 inputDir = Input.GetVector("move_left", "move_right", "move_forward", "move_backward");
 		Vector3 direction = new Vector3(inputDir.X, 0, inputDir.Y).Normalized();
