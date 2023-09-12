@@ -4,10 +4,13 @@ using System.Diagnostics;
 
 public partial class Player : CharacterBody3D
 {
-	public const float Speed = 10f;
+	public const float Speed = 3.5f;
 	private MeshInstance3D mousePositionSphere = null;
 
-	public override void _PhysicsProcess(double delta)
+	[Export]
+	private AnimationPlayer animPlayer;
+
+    public override void _PhysicsProcess(double delta)
 	{
 		// https://ask.godotengine.org/25922/how-to-get-3d-position-of-the-mouse-cursor
 
@@ -39,8 +42,18 @@ public partial class Player : CharacterBody3D
 
 		Vector2 inputDir = Input.GetVector("move_left", "move_right", "move_forward", "move_backward");
 		Vector3 direction = new Vector3(inputDir.X, 0, inputDir.Y).Normalized();
-		Position += direction * (float)delta * Speed;
 
-		MoveAndSlide();
+		Velocity = direction * Speed;
+
+		if(animPlayer != null)
+		{
+            if (Velocity.Length() != 0 && animPlayer.CurrentAnimation != "run")
+                animPlayer.Play("run");
+            if (Velocity.Length() == 0 && animPlayer.CurrentAnimation != "Idle")
+                animPlayer.Play("Idle");
+        }
+		
+
+        MoveAndSlide();
 	}
 }
