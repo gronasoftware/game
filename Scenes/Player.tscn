@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://csgjrwgkd02h8"]
+[gd_scene load_steps=4 format=3 uid="uid://csgjrwgkd02h8"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_jfkhu"]
+[ext_resource type="PackedScene" uid="uid://cib3usei0g7lm" path="res://Scenes/CameraController.tscn" id="2_m1k71"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_n24ir"]
 
@@ -17,5 +18,7 @@ transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12,
 
 [node name="CSGSphere3D" type="CSGSphere3D" parent="Body"]
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 6.60851, 0)
+[node name="CameraController" parent="." node_paths=PackedStringArray("target") instance=ExtResource("2_m1k71")]
+target = NodePath("../Body")
+offset = Vector3(0, 6, 3)
+TrailingSpeed = 6.0
