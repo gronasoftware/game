@@ -11,7 +11,8 @@ public partial class Player : CharacterBody3D
 
 		var camera = GetViewport().GetCamera3D();
 		var mousePosition2D = GetViewport().GetMousePosition();
-		var dropPlane = Plane.PlaneXZ;
+		var dropPlane = new Plane(Vector3.Up, Transform.Origin.Y);
+
 		var _mousePosition3D = dropPlane.IntersectsRay(
 			camera.ProjectRayOrigin(mousePosition2D),
 			camera.ProjectRayNormal(mousePosition2D)
@@ -21,7 +22,7 @@ public partial class Player : CharacterBody3D
 
 		// Rotate to face the mouse.
 		Vector3 lookAt = mousePosition3D - Transform.Origin;
-		lookAt.Y = 0;
+		lookAt.Y = Transform.Origin.Y;
 		Transform = Transform.LookingAt(lookAt, Vector3.Up);
 
 		Vector2 inputDir = Input.GetVector("move_left", "move_right", "move_forward", "move_backward");
