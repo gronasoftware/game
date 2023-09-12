@@ -1,7 +1,8 @@
-[gd_scene load_steps=16 format=3 uid="uid://6ni37uv40ekl"]
+[gd_scene load_steps=17 format=3 uid="uid://6ni37uv40ekl"]
 
 [ext_resource type="Texture2D" uid="uid://dql8suwt8836v" path="res://Textures/metall seamless.jpg" id="1_bqjfg"]
 [ext_resource type="Texture2D" uid="uid://dwh2jqgjur6ng" path="res://Textures/wood box.jpg" id="2_0p8a6"]
+[ext_resource type="PackedScene" uid="uid://csgjrwgkd02h8" path="res://Scenes/Player.tscn" id="3_bx6t6"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_eq63e"]
 
@@ -48,7 +49,7 @@ albedo_texture = ExtResource("2_0p8a6")
 [node name="Floor" type="StaticBody3D" parent="."]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
-transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0, 0, 0)
+transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0, 0, -0.0128956)
 mesh = SubResource("PlaneMesh_eq63e")
 skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_axk2j")
@@ -144,3 +145,11 @@ mesh = SubResource("BoxMesh_66goc")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Cube3"]
 transform = Transform3D(1, 0, 3.72529e-09, 0, 1, 0, -3.72529e-09, 0, 1, 0, 0, 0)
 shape = SubResource("BoxShape3D_sxrj1")
+
+[node name="Player" parent="." instance=ExtResource("3_bx6t6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 0.464774, 2.08165e-12)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.230525, 0.973066, 0, -0.973066, 0.230525, 0, 6.0674, 0.892868)
+visible = false
+current = true
