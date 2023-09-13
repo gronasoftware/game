@@ -1,12 +1,16 @@
-[gd_scene load_steps=4 format=3 uid="uid://csgjrwgkd02h8"]
+[gd_scene load_steps=5 format=3 uid="uid://csgjrwgkd02h8"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_jfkhu"]
 [ext_resource type="PackedScene" uid="uid://cib3usei0g7lm" path="res://Scenes/CameraController.tscn" id="2_m1k71"]
+[ext_resource type="PackedScene" uid="uid://cxcee755sg7so" path="res://Scenes/Character.tscn" id="2_tyh44"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_n24ir"]
 
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_jfkhu")
+
+[node name="Character" parent="." instance=ExtResource("2_tyh44")]
+visible = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_n24ir")

@@ -1,8 +1,9 @@
-[gd_scene load_steps=17 format=3 uid="uid://6ni37uv40ekl"]
+[gd_scene load_steps=18 format=3 uid="uid://6ni37uv40ekl"]
 
 [ext_resource type="Texture2D" uid="uid://dql8suwt8836v" path="res://Textures/metall seamless.jpg" id="1_bqjfg"]
 [ext_resource type="Texture2D" uid="uid://dwh2jqgjur6ng" path="res://Textures/wood box.jpg" id="2_0p8a6"]
 [ext_resource type="PackedScene" uid="uid://csgjrwgkd02h8" path="res://Scenes/Player.tscn" id="3_bx6t6"]
+[ext_resource type="PackedScene" uid="uid://cxcee755sg7so" path="res://Scenes/Character.tscn" id="4_6slxg"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_eq63e"]
 
@@ -148,3 +149,6 @@ shape = SubResource("BoxShape3D_sxrj1")
 
 [node name="Player" parent="." instance=ExtResource("3_bx6t6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 0.464774, 2.08165e-12)
+
+[node name="Enemy" parent="." groups=["Enemy"] instance=ExtResource("4_6slxg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.52044, 0.916818, 2.88834)
