@@ -4,10 +4,14 @@ using System.Diagnostics;
 
 public partial class Player : CharacterBody3D
 {
+    [Signal]
+    public delegate void ShotFiredEventHandler(Vector3 origin, Vector3 direction);
+    
 	public const float Speed = 10f;
 	private MeshInstance3D mousePositionSphere = null;
 
-	public override void _PhysicsProcess(double delta)
+
+    public override void _PhysicsProcess(double delta)
 	{
 		// https://ask.godotengine.org/25922/how-to-get-3d-position-of-the-mouse-cursor
 
@@ -39,40 +43,20 @@ public partial class Player : CharacterBody3D
 
 		Vector2 inputDir = Input.GetVector("move_left", "move_right", "move_forward", "move_backward");
 		Vector3 direction = new Vector3(inputDir.X, 0, inputDir.Y).Normalized();
-		Position += direction * (float)delta * Speed;
+
+		Velocity = direction * Speed;
+		// Position += direction * (float)delta * Speed;
 
 		if (Input.IsActionJustPressed("shoot"))
 		{
-			// Send a raycast from the direction the player is facing
-			var spaceState = GetWorld3D().DirectSpaceState;
-			var query = PhysicsRayQueryParameters3D.Create(Transform.Origin, Transform.Origin - Transform.Basis.Z * 1000);
-			query.Exclude = new Godot.Collections.Array<Rid> { GetRid() };
-			var result = spaceState.IntersectRay(query);
+            EmitSignal(SignalName.ShotFired, Transform.Origin, -Transform.Basis.Z);
+        }
 
-			if (result.Count > 0)
-			{
-				// Draw small sphere at hitPosition
-				var hitPosition = (Vector3)result["position"];
-				var sphere2 = new SphereMesh();
-				sphere2.Radius = 0.1f;
-				sphere2.Height = 0.1f;
-				var sphereInstance2 = new MeshInstance3D();
-				sphereInstance2.Mesh = sphere;
-				sphereInstance2.Position = hitPosition;
-				GetParent().AddChild(sphereInstance2);
-
-				var collider = result["collider"].AsGodotObject();
-				if (collider is CollisionObject3D) {
-					var collisionObject = (CollisionObject3D)collider;
-					if (collisionObject.IsInGroup("Enemy")) {
-						Character enemy = (Character)GetParent().GetNode("Enemy");
-						if (enemy != null)
-							enemy.TakeDamage(30);
-					}
-				}
-			}
-		}
-
-		MoveAndSlide();
+        MoveAndSlide();
 	}
+
+    /*public override void NoMoreHealth()
+    {
+        throw new NotImplementedException();
+    }*/
 }
