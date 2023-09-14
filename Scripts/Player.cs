@@ -4,6 +4,9 @@ using System.Diagnostics;
 
 public partial class Player : CharacterBody3D
 {
+    [Signal]
+    public delegate void ShotFiredEventHandler(Vector3 origin, Vector3 direction);
+    
 	public const float Speed = 3.5f;
 	private MeshInstance3D mousePositionSphere = null;
 
@@ -45,6 +48,11 @@ public partial class Player : CharacterBody3D
 
 		Velocity = direction * Speed;
 
+		if (Input.IsActionJustPressed("shoot"))
+		{
+            EmitSignal(SignalName.ShotFired, Transform.Origin, -Transform.Basis.Z);
+        }
+
 		if(animPlayer != null)
 		{
             if (Velocity.Length() != 0 && animPlayer.CurrentAnimation != "run")
@@ -56,4 +64,9 @@ public partial class Player : CharacterBody3D
 
         MoveAndSlide();
 	}
+
+    /*public override void NoMoreHealth()
+    {
+        throw new NotImplementedException();
+    }*/
 }

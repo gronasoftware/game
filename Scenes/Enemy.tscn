@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://cxcee755sg7so"]
+
+[ext_resource type="Script" path="res://Scripts/Enemy.cs" id="1_s86cf"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_o8l35"]
+
+[node name="Enemy" type="CharacterBody3D" groups=["Enemy"]]
+script = ExtResource("1_s86cf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CylinderShape3D_o8l35")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
