@@ -7,9 +7,11 @@ public partial class Player : CharacterBody3D
     [Signal]
     public delegate void ShotFiredEventHandler(Vector3 origin, Vector3 direction);
     
-	public const float Speed = 10f;
+	public const float Speed = 3.5f;
 	private MeshInstance3D mousePositionSphere = null;
 
+	[Export]
+	private AnimationPlayer animPlayer;
 
     public override void _PhysicsProcess(double delta)
 	{
@@ -45,12 +47,20 @@ public partial class Player : CharacterBody3D
 		Vector3 direction = new Vector3(inputDir.X, 0, inputDir.Y).Normalized();
 
 		Velocity = direction * Speed;
-		// Position += direction * (float)delta * Speed;
 
 		if (Input.IsActionJustPressed("shoot"))
 		{
             EmitSignal(SignalName.ShotFired, Transform.Origin, -Transform.Basis.Z);
         }
+
+		if(animPlayer != null)
+		{
+            if (Velocity.Length() != 0 && animPlayer.CurrentAnimation != "run")
+                animPlayer.Play("run");
+            if (Velocity.Length() == 0 && animPlayer.CurrentAnimation != "Idle")
+                animPlayer.Play("Idle");
+        }
+		
 
         MoveAndSlide();
 	}
