@@ -20,16 +20,16 @@ public partial class TestEnvironment : Node3D, ICombatScene
 	public void RegisterCharacter(CharacterBase character)
 	{
 		characters.Add(character);
-		character.ShotFired += OnPlayerShotFired;
+		character.ShotFired += OnShotFired;
 	}
 
 	public void UnregisterCharacter(CharacterBase character)
 	{
 		characters.Remove(character);
-		character.ShotFired -= OnPlayerShotFired; // ? Can we do this
+		character.ShotFired -= OnShotFired;
 	}
 
-	public void OnPlayerShotFired(Vector3 origin, Vector3 direction)
+	public void OnShotFired(Vector3 origin, Vector3 direction)
 	{
 		// Send a raycast from the direction the player is facing
 		var spaceState = GetWorld3D().DirectSpaceState; // Can't use GetWorld3D in a singleton not attached to the scene tree
