@@ -40,7 +40,7 @@ public partial class TestEnvironment : Node3D
                 var collisionObject = (CollisionObject3D)collider;
                 if (collisionObject.IsInGroup("Enemy"))
                 {
-                    Enemy enemy = (Enemy)GetNode("Enemy");
+                    Enemy enemy = (Enemy)collisionObject;
                     if (enemy != null)
                         enemy.ReduceHealth(20);
                 }
