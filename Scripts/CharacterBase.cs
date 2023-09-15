@@ -8,7 +8,33 @@ using System.Threading.Tasks;
 
 public abstract partial class CharacterBase : CharacterBody3D
 {
+
+    [Signal]
+    public delegate void ShotFiredEventHandler(Vector3 origin, Vector3 direction);
+
+    [Export]
     public int health = 100;
+
+    private Node root;
+
+    public override void _Ready()
+    {
+        // Register with the TestEnvironment
+        root = GetTree().Root.GetChild(0);
+        if (root is ICombatScene combatScene)
+        {
+            combatScene.RegisterCharacter(this);
+        }
+    }
+
+    public override void _ExitTree()
+    {
+        // Unregister with the TestEnvironment
+        if (root is ICombatScene combatScene)
+        {
+            combatScene.UnregisterCharacter(this);
+        }
+    }
 
     public void ReduceHealth(int amount)
     {
