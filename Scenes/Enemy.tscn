@@ -2,12 +2,16 @@
 
 [ext_resource type="Script" path="res://Scripts/Enemy.cs" id="1_s86cf"]
 [ext_resource type="PackedScene" uid="uid://wwhewswd7fv6" path="res://Models/character.glb" id="2_8vo4n"]
+[ext_resource type="PackedScene" uid="uid://bysq2j6tk022q" path="res://Scenes/HealthBar.tscn" id="2_xq8qh"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_82vt2"]
 radius = 0.3
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wtp0n"]
 albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_0lqov"]
+viewport_path = NodePath("SubViewport")
 
 [node name="Enemy" type="CharacterBody3D" groups=["Enemy"]]
 script = ExtResource("1_s86cf")
@@ -48,3 +52,15 @@ playback_default_blend_time = 0.2
 speed_scale = 1.7
 
 [editable path="body"]
+
+[node name="SubViewport" type="SubViewport" parent="."]
+disable_3d = true
+transparent_bg = true
+size = Vector2i(1024, 128)
+
+[node name="HealthBar" parent="SubViewport" instance=ExtResource("2_xq8qh")]
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 1.26136, 0)
+billboard = 1
+texture = SubResource("ViewportTexture_0lqov")

@@ -14,6 +14,8 @@ public partial class Enemy : CharacterBase
 			shotTimer = 120;
 			EmitSignal(SignalName.ShotFired, Transform.Origin, -Transform.Basis.Z);
 		}
+		var healthbar = (ProgressBar)GetNode("SubViewport/HealthBar");
+		healthbar.Value = health;
 		MoveAndSlide();
 	}
 
