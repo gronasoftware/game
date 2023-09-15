@@ -2,18 +2,16 @@ using Godot;
 using System;
 using System.Diagnostics;
 
-public partial class Player : CharacterBody3D
+public partial class Player : CharacterBase 
 {
-    [Signal]
-    public delegate void ShotFiredEventHandler(Vector3 origin, Vector3 direction);
-    
+	[Export]
 	public const float Speed = 3.5f;
 	private MeshInstance3D mousePositionSphere = null;
 
 	[Export]
 	private AnimationPlayer animPlayer;
 
-    public override void _PhysicsProcess(double delta)
+		public override void _PhysicsProcess(double delta)
 	{
 		// https://ask.godotengine.org/25922/how-to-get-3d-position-of-the-mouse-cursor
 
@@ -26,7 +24,7 @@ public partial class Player : CharacterBody3D
 		Vector3 mousePosition3D = dropPlane.IntersectsRay(
 			camera.ProjectRayOrigin(mousePosition2D),
 			camera.ProjectRayNormal(mousePosition2D)
-		) ?? Vector3.Zero;
+		) ?? Vector3.Forward;
 
 		// DEBUG STUFF:::
 		// Draw a sphere at mousePosition3D
@@ -50,23 +48,22 @@ public partial class Player : CharacterBody3D
 
 		if (Input.IsActionJustPressed("shoot"))
 		{
-            EmitSignal(SignalName.ShotFired, Transform.Origin, -Transform.Basis.Z);
-        }
+			EmitSignal(SignalName.ShotFired, Transform.Origin, -Transform.Basis.Z);
+		}
 
 		if(animPlayer != null)
 		{
-            if (Velocity.Length() != 0 && animPlayer.CurrentAnimation != "run")
-                animPlayer.Play("run");
-            if (Velocity.Length() == 0 && animPlayer.CurrentAnimation != "Idle")
-                animPlayer.Play("Idle");
-        }
-		
+			if (Velocity.Length() != 0 && animPlayer.CurrentAnimation != "run")
+				animPlayer.Play("run");
+			if (Velocity.Length() == 0 && animPlayer.CurrentAnimation != "Idle")
+				animPlayer.Play("Idle");
+		}
 
-        MoveAndSlide();
+		MoveAndSlide();
 	}
 
-    /*public override void NoMoreHealth()
-    {
-        throw new NotImplementedException();
-    }*/
+		public override void NoMoreHealth()
+		{
+			GD.Print("Game Over!");
+		}
 }
