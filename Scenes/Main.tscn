@@ -37,4 +37,5 @@ visible = false
 mesh = SubResource("BoxMesh_t4cbu")
 script = ExtResource("1_2fvmn")
 
-[node name="Player" parent="." instance=ExtResource("2_orel7")]
+[node name="Player" parent="." node_paths=PackedStringArray("animPlayer") instance=ExtResource("2_orel7")]
+animPlayer = NodePath("")
