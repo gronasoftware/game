@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://jnpfh3ujbvt0"]
+
+[ext_resource type="Script" path="res://ProceduralLevel/Area.cs" id="1_kb2ph"]
+[ext_resource type="ArrayMesh" uid="uid://dsi0gv66hgu6j" path="res://ProceduralLevel/Area6x6.obj" id="2_oi5vr"]
+
+[node name="Area6x6" type="Node3D"]
+script = ExtResource("1_kb2ph")
+sizeX = 6
+sizeZ = 6
+connPos = PackedVector2Array(0, 3)
+
+[node name="Node3D" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 3)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D"]
+mesh = ExtResource("2_oi5vr")
+skeleton = NodePath("../..")

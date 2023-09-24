@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 [Tool]
-public partial class ProceduralCave : Node3D
+public partial class ProceduralLevel : Node3D
 {
     RandomNumberGenerator random;
 
@@ -14,7 +14,7 @@ public partial class ProceduralCave : Node3D
 
     private int _startArea = -1;
     [Export]
-    public int StartArea { get => _startArea; set { _startArea = Math.Clamp(value, 0, areas.Length) - 1; } }
+    public int StartArea { get => _startArea; set { _startArea = Math.Clamp(value, 0, areas.Length); } }
 
     [Export]
     public bool generate { get => false; set => Generate(); }
@@ -23,24 +23,24 @@ public partial class ProceduralCave : Node3D
     public uint RecDepth = 3;
 
     private bool[,] occupiedTiles;
-    private bool[,] connPositions;
+    private uint[,] connPositions;
     private Vector2I midPoint;
 
-    private void Recurse(Area currentArea, Vector2 currentConnPos, uint recursionsLeft)
+    private bool Recurse(Area currentArea, Vector2 currentConnPos, uint recursionsLeft)
     {
         int attempts = 0;
         while(true)
         {
-            // Should return false
             if (attempts++ > 20 || recursionsLeft == 0)
             {
-                return;
+                // Failed
+                return false;
             }
 
             // TODO; Use a set and remove random areas from the set instead of taking a new random area from whole set every time
             Area nextArea = (Area)areas[random.RandiRange(0, areas.Length - 1)].Instantiate();
+            RotateArea(nextArea, random.RandiRange(0, 2));
 
-            RotateArea(nextArea, random.RandiRange(0, 1));
             // Try matching connection with every connection of new area
             foreach (Vector2 nextConnPos in nextArea.connPos)
             {
@@ -66,7 +66,7 @@ public partial class ProceduralCave : Node3D
                     AddChild(nextArea);
 
                     // Success, now we can return (should return true in future)
-                    return;
+                    return true;
                 }
             }
         }
@@ -104,7 +104,7 @@ public partial class ProceduralCave : Node3D
         foreach (Vector2 connPos in area.connPos)
         {
             Vector2I pos = new Vector2I((int)area.Position.X + (int)connPos.X, (int)area.Position.Z + (int)connPos.Y);
-            connPositions[midPoint.X + pos.X, midPoint.Y + pos.Y] = true;
+            connPositions[midPoint.X + pos.X, midPoint.Y + pos.Y]+= 1;
         }
         
     }
@@ -113,7 +113,7 @@ public partial class ProceduralCave : Node3D
     {
         Vector2I pos = new Vector2I((int)area.Position.X + (int)connPos.X, (int)area.Position.Z + (int)connPos.Y);
 
-        return connPositions[midPoint.X + pos.X, midPoint.Y + pos.Y];
+        return connPositions[midPoint.X + pos.X, midPoint.Y + pos.Y] == 1;
     }
 
     private void RotateArea(Area area, int timesNintety)
@@ -137,9 +137,25 @@ public partial class ProceduralCave : Node3D
 
                 Node3D node3d = area.GetNode<Node3D>("Node3D");
 
-                node3d.GlobalPosition = new Vector3((float)newSizeX/2f, 0, (float)newSizeZ /2f);
+                node3d.Position = new Vector3((float)newSizeX/2f, 0, (float)newSizeZ /2f);
                 node3d.RotateY((float)Math.PI/2f);
                 break;
+            case 2:
+                for (int i = 0; i < area.connPos.Length; i++)
+                {
+                    float newX = area.sizeX - area.connPos[i].X;
+                    float newZ = area.sizeZ - area.connPos[i].Y;
+                    area.connPos[i].X = newX;
+                    area.connPos[i].Y = newZ;
+                }
+
+                node3d = area.GetNode<Node3D>("Node3D");
+
+                node3d.Position = new Vector3((float)area.sizeX / 2f, 0, (float)area.sizeZ / 2f);
+                node3d.RotateY(2f*(float)Math.PI / 2f);
+                break;
+
+
         }
     }
 
@@ -148,7 +164,7 @@ public partial class ProceduralCave : Node3D
 
         // Todo, do this dynamically based on largest size of area and recursion depth
         occupiedTiles = new bool[2000, 2000];
-        connPositions = new bool[2000, 2000];
+        connPositions = new uint[2000, 2000];
         midPoint = new Vector2I(1000, 1000);
 
         random = new RandomNumberGenerator();
@@ -173,6 +189,16 @@ public partial class ProceduralCave : Node3D
         AddChild(area);
 
 
+        for (int i = 0; i < 2000 ; i++)
+        {
+            for(int j = 0; j < 2000;  j++)
+            {
+                if (connPositions[i,j] == 1)
+                {
+                    GD.Print("Failed");
+                }
+            }
+        }
         
 
     }

@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://bxctu3mwib5py"]
+
+[ext_resource type="Script" path="res://ProceduralLevel/Area.cs" id="1_5xr1g"]
+[ext_resource type="ArrayMesh" uid="uid://ccv4dhhrp04sm" path="res://ProceduralLevel/Area8x8.obj" id="2_ilhqu"]
+[ext_resource type="PackedScene" uid="uid://c7067kgxnldd1" path="res://ProceduralLevel/Door.tscn" id="3_e4fhx"]
+
+[node name="Area8x8" type="Node3D"]
+script = ExtResource("1_5xr1g")
+sizeX = 8
+sizeZ = 8
+connPos = PackedVector2Array(0, 4, 8, 4)
+
+[node name="Node3D" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 4)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D"]
+mesh = ExtResource("2_ilhqu")
+skeleton = NodePath("../..")
+
+[node name="Door" parent="." instance=ExtResource("3_e4fhx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
+
+[node name="Door2" parent="." instance=ExtResource("3_e4fhx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 4)

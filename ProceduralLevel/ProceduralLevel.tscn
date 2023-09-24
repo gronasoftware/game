@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bc4l5dnl0xek0"]
+
+[ext_resource type="Script" path="res://ProceduralLevel/ProceduralLevel.cs" id="1_adni8"]
+[ext_resource type="PackedScene" uid="uid://jnpfh3ujbvt0" path="res://ProceduralLevel/Area6x6.tscn" id="2_bkvdh"]
+
+[node name="ProceduralLevel" type="Node3D"]
+script = ExtResource("1_adni8")
+areas = [ExtResource("2_bkvdh")]
+StartArea = 0
+RecDepth = 1

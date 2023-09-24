@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://bc26vi5cyhpn1"]
 
-[ext_resource type="Script" path="res://ProceduralCave/Area.cs" id="1_ii7m6"]
-[ext_resource type="ArrayMesh" uid="uid://672dc6juolx2" path="res://ProceduralCave/Area14x14.obj" id="2_v11xn"]
-[ext_resource type="PackedScene" uid="uid://c7067kgxnldd1" path="res://ProceduralCave/Door.tscn" id="3_1jigp"]
+[ext_resource type="Script" path="res://ProceduralLevel/Area.cs" id="1_ii7m6"]
+[ext_resource type="ArrayMesh" uid="uid://672dc6juolx2" path="res://ProceduralLevel/Area14x14.obj" id="2_v11xn"]
+[ext_resource type="PackedScene" uid="uid://c7067kgxnldd1" path="res://ProceduralLevel/Door.tscn" id="3_1jigp"]
 
 [node name="Area14x14" type="Node3D"]
 script = ExtResource("1_ii7m6")
