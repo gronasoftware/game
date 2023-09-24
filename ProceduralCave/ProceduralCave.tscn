@@ -1,0 +1,12 @@
+[gd_scene load_steps=5 format=3 uid="uid://s4ieuegl8jee"]
+
+[ext_resource type="Script" path="res://ProceduralCave/ProceduralCave.cs" id="1_cg0b7"]
+[ext_resource type="PackedScene" uid="uid://ctu874xe1eswh" path="res://ProceduralCave/Area20x20.tscn" id="2_udsg2"]
+[ext_resource type="PackedScene" uid="uid://bxctu3mwib5py" path="res://ProceduralCave/Area8x6.tscn" id="4_fx2a6"]
+[ext_resource type="PackedScene" uid="uid://bc26vi5cyhpn1" path="res://ProceduralCave/Area14x14.tscn" id="5_2p3pd"]
+
+[node name="ProceduralCave" type="Node3D"]
+script = ExtResource("1_cg0b7")
+areas = [ExtResource("4_fx2a6"), ExtResource("5_2p3pd"), ExtResource("2_udsg2")]
+StartArea = 2
+RecDepth = 10
