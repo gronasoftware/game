@@ -13,6 +13,6 @@ public partial class Area : Node3D
     public Vector2[] connPos;
 
 
-    public bool[] connectionConnected;
+    public Area[] connectedAreas;
 
 }

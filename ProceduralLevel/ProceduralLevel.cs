@@ -12,9 +12,9 @@ public partial class ProceduralLevel : Node3D
     [Export]
     public PackedScene[] areas;
 
-    private int _startArea = -1;
+    private uint _startArea = 0;
     [Export]
-    public int StartArea { get => _startArea; set { _startArea = Math.Clamp(value, 0, areas.Length); } }
+    public uint StartArea { get => _startArea; set { _startArea = (uint)Math.Clamp(value, 0, areas.Length-1); } }
 
     [Export]
     public bool generate { get => false; set => Generate(); }
@@ -23,55 +23,102 @@ public partial class ProceduralLevel : Node3D
     public uint RecDepth = 3;
 
     private bool[,] occupiedTiles;
-    private uint[,] connPositions;
     private Vector2I midPoint;
 
-    private bool Recurse(Area currentArea, Vector2 currentConnPos, uint recursionsLeft)
+    private bool Recurse(Area area, uint connID, uint recursionsLeft)
     {
-        int attempts = 0;
-        while(true)
+        // Add base case, if connection already exists at this position, return true
+
+        if (recursionsLeft == 0)
+            return false;
+
+        HashSet<uint> set = new HashSet<uint>();
+        for (uint i = 0; i < areas.Length; i++) set.Add(i);
+
+        while(set.Count > 0)
         {
-            if (attempts++ > 20 || recursionsLeft == 0)
+            uint areaID = set.ElementAt(random.RandiRange(0, set.Count-1));
+            set.Remove(areaID);
+
+            HashSet<uint> rotationSet = new HashSet<uint>();
+            for (uint i = 0; i < 4; i++) rotationSet.Add(i);
+
+            while(rotationSet.Count > 0)
             {
-                // Failed
-                return false;
-            }
+                uint rotation = rotationSet.ElementAt(random.RandiRange(0, rotationSet.Count - 1));
+                rotationSet.Remove(rotation);
 
-            // TODO; Use a set and remove random areas from the set instead of taking a new random area from whole set every time
-            Area nextArea = (Area)areas[random.RandiRange(0, areas.Length - 1)].Instantiate();
-            RotateArea(nextArea, random.RandiRange(0, 2));
+                Area temp = CreateArea(areaID, rotation);
 
-            // Try matching connection with every connection of new area
-            foreach (Vector2 nextConnPos in nextArea.connPos)
-            {
-                // Calculate position for the next area using connection offsets
-                nextArea.Position = currentArea.Position + new Vector3(currentConnPos.X - nextConnPos.X, 0, currentConnPos.Y - nextConnPos.Y);
-
-                // Check if we can place area
-                if (!IsOccupied(nextArea))
+                // Match with new areas connection
+                for (uint i = 0; i < temp.connPos.Length; i++)
                 {
-                    SetOccupied(nextArea);
+                    Area nextArea = CreateArea(areaID, rotation);
 
-                    List<Vector2> uncoveredConnections = new List<Vector2>();
-                    foreach (Vector2 newConnPos in nextArea.connPos)
-                        if (!ConnPosExists(nextArea, newConnPos)) uncoveredConnections.Add(newConnPos);
+                    // Calculate position for the next area using connection offsets
+                    nextArea.Position = area.Position + new Vector3(area.connPos[connID].X - nextArea.connPos[i].X, 0, area.connPos[connID].Y - nextArea.connPos[i].Y);
 
+                    // Check if we can place area
+                    if (!IsOccupied(nextArea))
+                    {
+                        SetOccupied(nextArea);
+                        AddChild(nextArea);
 
-                    SetConnPositions(nextArea);
+                        bool success = true;
+                        for (uint j = 0; j < nextArea.connPos.Length; j++)
+                        {
+                            if (j == i) continue;
 
-                    // TODO; Check that all recursive calls return true; Also should keep track which connections are satisfied
-                    foreach (Vector2 newConnPos in uncoveredConnections)
-                        Recurse(nextArea, newConnPos, recursionsLeft - 1);
+                            if(!Recurse(nextArea, j, recursionsLeft - 1))
+                            {
+                                success = false; 
+                                break;
+                            }
+                        }
 
-                    AddChild(nextArea);
+                        if (!success)
+                        {
+                            RemoveArea(nextArea);
+                            continue;
+                        }
 
-                    // Success, now we can return (should return true in future)
-                    return true;
+                        // Success, now we can return True
+                        area.connectedAreas[connID] = nextArea;
+                        temp.Free();
+                        return true;
+                    }
                 }
+
+                temp.Free();
             }
         }
 
+        return false;
 
+
+    }
+
+    private Area CreateArea(uint areaID, uint rotation)
+    {
+        Area area = (Area)areas[areaID].Instantiate();
+
+        area.connectedAreas = new Area[area.connPos.Length];
+        RotateArea(area, rotation);
+
+        return area;
+    }
+
+    private void RemoveArea(Area area)
+    {
+        for(int i = 0; i < area.connectedAreas.Length; i++)
+        {
+            if (area.connectedAreas[i] != null)
+                RemoveArea(area.connectedAreas[i]);
+        }
+
+        RemoveOccupied(area);
+        RemoveChild(area);
+        area.Free();
     }
 
     private void SetOccupied(Area area)
@@ -81,6 +128,16 @@ public partial class ProceduralLevel : Node3D
             for (int z = 0; z < area.sizeZ; z++)
             {
                 occupiedTiles[midPoint.X + pos.X + x, midPoint.Y + pos.Y + z] = true;
+            }
+    }
+
+    private void RemoveOccupied(Area area)
+    {
+        Vector2I pos = new Vector2I((int)area.Position.X, (int)area.Position.Z);
+        for (int x = 0; x < area.sizeX; x++)
+            for (int z = 0; z < area.sizeZ; z++)
+            {
+                occupiedTiles[midPoint.X + pos.X + x, midPoint.Y + pos.Y + z] = false;
             }
     }
 
@@ -99,32 +156,19 @@ public partial class ProceduralLevel : Node3D
         return false;
     }
 
-    private void SetConnPositions(Area area)
+    private void RotateArea(Area area, uint timesNintety)
     {
-        foreach (Vector2 connPos in area.connPos)
-        {
-            Vector2I pos = new Vector2I((int)area.Position.X + (int)connPos.X, (int)area.Position.Z + (int)connPos.Y);
-            connPositions[midPoint.X + pos.X, midPoint.Y + pos.Y]+= 1;
-        }
-        
-    }
+        uint newSizeX;
+        uint newSizeZ;
+        Node3D node3d;
 
-    private bool ConnPosExists(Area area, Vector2 connPos)
-    {
-        Vector2I pos = new Vector2I((int)area.Position.X + (int)connPos.X, (int)area.Position.Z + (int)connPos.Y);
-
-        return connPositions[midPoint.X + pos.X, midPoint.Y + pos.Y] == 1;
-    }
-
-    private void RotateArea(Area area, int timesNintety)
-    {
         switch (timesNintety)
         {
-            case 0: break; 
+            case 0:
+                break;
             case 1:
-                uint newSizeX = area.sizeZ;
-                uint newSizeZ = area.sizeX;
-
+                newSizeX = area.sizeZ;
+                newSizeZ = area.sizeX;
                 area.sizeX = newSizeX;
                 area.sizeZ = newSizeZ;
                 for (int i = 0; i < area.connPos.Length; i++)
@@ -135,10 +179,11 @@ public partial class ProceduralLevel : Node3D
                     area.connPos[i].Y = newZ;
                 }
 
-                Node3D node3d = area.GetNode<Node3D>("Node3D");
+                node3d = area.GetNode<Node3D>("Node3D");
 
-                node3d.Position = new Vector3((float)newSizeX/2f, 0, (float)newSizeZ /2f);
-                node3d.RotateY((float)Math.PI/2f);
+                node3d.Position = new Vector3((float)newSizeX / 2f, 0, (float)newSizeZ / 2f);
+                node3d.RotateY((float)Math.PI / 2f);
+
                 break;
             case 2:
                 for (int i = 0; i < area.connPos.Length; i++)
@@ -152,24 +197,39 @@ public partial class ProceduralLevel : Node3D
                 node3d = area.GetNode<Node3D>("Node3D");
 
                 node3d.Position = new Vector3((float)area.sizeX / 2f, 0, (float)area.sizeZ / 2f);
-                node3d.RotateY(2f*(float)Math.PI / 2f);
+                node3d.RotateY(2f * (float)Math.PI / 2f);
                 break;
 
+            case 3:
+                newSizeX = area.sizeZ;
+                newSizeZ = area.sizeX;
+                area.sizeX = newSizeX;
+                area.sizeZ = newSizeZ;
+                for (int i = 0; i < area.connPos.Length; i++)
+                {
+                    float newX = newSizeZ - area.connPos[i].Y;
+                    float newZ = area.connPos[i].X;
+                    area.connPos[i].X = newX;
+                    area.connPos[i].Y = newZ;
+                }
 
+                node3d = area.GetNode<Node3D>("Node3D");
+
+                node3d.Position = new Vector3((float)newSizeX / 2f, 0, (float)newSizeZ / 2f);
+                node3d.RotateY(3f*(float)Math.PI / 2f);
+                break;
         }
+
     }
 
     private void Generate()
     {
-
         // Todo, do this dynamically based on largest size of area and recursion depth
         occupiedTiles = new bool[2000, 2000];
-        connPositions = new uint[2000, 2000];
         midPoint = new Vector2I(1000, 1000);
 
         random = new RandomNumberGenerator();
 
-        // Clear previous
         foreach (Node child in GetChildren())
         {
             RemoveChild(child);
@@ -180,11 +240,11 @@ public partial class ProceduralLevel : Node3D
         // This check should not be handled in the recursion, that is messy
 
         if (_startArea < 0) return;
-        Area area = (Area)areas[_startArea].Instantiate();
+
+        Area area = CreateArea(_startArea, 0);
         SetOccupied(area);
-        SetConnPositions(area);
-        foreach (Vector2 connPos in area.connPos)
-            Recurse(area, connPos, RecDepth);
+
+        for(uint i = 0; i < area.connPos.Length; i++) Recurse(area, i, RecDepth);
 
         AddChild(area);
 
