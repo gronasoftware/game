@@ -247,18 +247,6 @@ public partial class ProceduralLevel : Node3D
         for(uint i = 0; i < area.connPos.Length; i++) Recurse(area, i, RecDepth);
 
         AddChild(area);
-
-
-        for (int i = 0; i < 2000 ; i++)
-        {
-            for(int j = 0; j < 2000;  j++)
-            {
-                if (connPositions[i,j] == 1)
-                {
-                    GD.Print("Failed");
-                }
-            }
-        }
         
 
     }
