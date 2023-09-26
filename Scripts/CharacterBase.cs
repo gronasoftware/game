@@ -10,7 +10,7 @@ public abstract partial class CharacterBase : CharacterBody3D
 {
 
     [Signal]
-    public delegate void ShotFiredEventHandler(Vector3 origin, Vector3 direction);
+    public delegate void ShotFiredEventHandler(Weapon weapon);
 
     [Export]
     public int health = 100;

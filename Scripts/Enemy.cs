@@ -12,7 +12,7 @@ public partial class Enemy : CharacterBase
 		if (shotTimer <= 0)
 		{
 			shotTimer = 120;
-			EmitSignal(SignalName.ShotFired, Transform.Origin, -Transform.Basis.Z);
+			//EmitSignal(SignalName.ShotFired, Transform.Origin, -Transform.Basis.Z);
 		}
 		var healthbar = (ProgressBar)GetNode("SubViewport/HealthBar");
 		healthbar.Value = health;

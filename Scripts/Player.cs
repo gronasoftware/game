@@ -11,6 +11,13 @@ public partial class Player : CharacterBase
 	[Export]
 	private AnimationPlayer animPlayer;
 
+	private Weapon currentWeapon;
+		public override void _Ready()
+	{
+		//currentWeapon = GetNode<Weapon>("InstantWeapon");
+		currentWeapon = GetNode<Weapon>("ProjectileWeapon");
+	}
+
 		public override void _PhysicsProcess(double delta)
 	{
 		// https://ask.godotengine.org/25922/how-to-get-3d-position-of-the-mouse-cursor
@@ -40,6 +47,8 @@ public partial class Player : CharacterBase
 		GetParent().AddChild(sphereInstance);
 
 		Transform = Transform.LookingAt(new Vector3(mousePosition3D.X, Transform.Origin.Y, mousePosition3D.Z), Vector3.Up);
+		//currentWeapon.GlobalTransform = Transform;
+		//currentWeapon.LookAt(-Transform.Basis.Z);
 
 		Vector2 inputDir = Input.GetVector("move_left", "move_right", "move_forward", "move_backward");
 		Vector3 direction = new Vector3(inputDir.X, 0, inputDir.Y).Normalized();
@@ -48,7 +57,7 @@ public partial class Player : CharacterBase
 
 		if (Input.IsActionJustPressed("shoot"))
 		{
-			EmitSignal(SignalName.ShotFired, Transform.Origin, -Transform.Basis.Z);
+			EmitSignal(SignalName.ShotFired, currentWeapon);
 		}
 
 		if(animPlayer != null)
