@@ -1,8 +1,9 @@
-[gd_scene load_steps=19 format=3 uid="uid://6ni37uv40ekl"]
+[gd_scene load_steps=20 format=3 uid="uid://6ni37uv40ekl"]
 
 [ext_resource type="Script" path="res://Scripts/TestEnvironment.cs" id="1_abwh1"]
 [ext_resource type="Texture2D" uid="uid://dql8suwt8836v" path="res://Textures/metall seamless.jpg" id="1_bqjfg"]
 [ext_resource type="Texture2D" uid="uid://dwh2jqgjur6ng" path="res://Textures/wood box.jpg" id="2_0p8a6"]
+[ext_resource type="PackedScene" uid="uid://pwpbnlj2tr13" path="res://Scenes/CombatManager.tscn" id="2_j4pot"]
 [ext_resource type="PackedScene" uid="uid://csgjrwgkd02h8" path="res://Scenes/Player.tscn" id="3_bx6t6"]
 [ext_resource type="PackedScene" uid="uid://cxcee755sg7so" path="res://Scenes/Enemy.tscn" id="4_6slxg"]
 
@@ -48,6 +49,8 @@ albedo_texture = ExtResource("2_0p8a6")
 
 [node name="TestEnvironment" type="Node3D"]
 script = ExtResource("1_abwh1")
+
+[node name="CombatManager" parent="." instance=ExtResource("2_j4pot")]
 
 [node name="Floor" type="StaticBody3D" parent="."]
 

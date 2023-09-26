@@ -13,7 +13,7 @@ albedo_color = Color(1, 0, 0, 1)
 [sub_resource type="ViewportTexture" id="ViewportTexture_0lqov"]
 viewport_path = NodePath("SubViewport")
 
-[node name="Enemy" type="CharacterBody3D" groups=["Enemy"]]
+[node name="Enemy" type="CharacterBody3D" groups=["Combatant", "Enemy"]]
 script = ExtResource("1_s86cf")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

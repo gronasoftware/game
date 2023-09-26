@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://bi2a6hqjg0qhr"]
+
+[ext_resource type="Script" path="res://Scripts/Weapons/Projectile.cs" id="1_8f88k"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_g0gt2"]
+
+[node name="Projectile" type="AnimatableBody3D"]
+sync_to_physics = false
+script = ExtResource("1_8f88k")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.4, 0, 0, 0)
+shape = SubResource("SphereShape3D_g0gt2")
+disabled = true
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.4, 0, 0, 0)
