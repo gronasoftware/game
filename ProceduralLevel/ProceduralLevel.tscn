@@ -1,13 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://bc4l5dnl0xek0"]
+[gd_scene load_steps=2 format=3 uid="uid://bc4l5dnl0xek0"]
 
 [ext_resource type="Script" path="res://ProceduralLevel/ProceduralLevel.cs" id="1_adni8"]
-[ext_resource type="PackedScene" uid="uid://jnpfh3ujbvt0" path="res://ProceduralLevel/Area6x6.tscn" id="2_bkvdh"]
-[ext_resource type="PackedScene" uid="uid://bxctu3mwib5py" path="res://ProceduralLevel/Area8x8.tscn" id="3_fwkml"]
-[ext_resource type="PackedScene" uid="uid://bc26vi5cyhpn1" path="res://ProceduralLevel/Area14x14.tscn" id="4_aiklt"]
-[ext_resource type="PackedScene" uid="uid://ctu874xe1eswh" path="res://ProceduralLevel/Area20x20.tscn" id="5_ut0xq"]
 
 [node name="ProceduralLevel" type="Node3D"]
 script = ExtResource("1_adni8")
-areas = [ExtResource("2_bkvdh"), ExtResource("3_fwkml"), ExtResource("4_aiklt"), ExtResource("5_ut0xq")]
-StartArea = 3
-RecDepth = 20

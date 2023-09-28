@@ -12,7 +12,6 @@ public partial class Area : Node3D
     [Export]
     public Vector2[] connPos;
 
-
     public Area[] connectedAreas;
 
 }

@@ -9,9 +9,5 @@ sizeX = 8
 sizeZ = 8
 connPos = PackedVector2Array(0, 4, 8, 4)
 
-[node name="Node3D" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 4)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Node3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = ExtResource("2_5tgg4")
-skeleton = NodePath("../..")

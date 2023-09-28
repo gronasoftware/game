@@ -14,18 +14,19 @@ public partial class ProceduralLevel : Node3D
 
     private uint _startArea = 0;
     [Export]
-    public uint StartArea { get => _startArea; set { _startArea = (uint)Math.Clamp(value, 0, areas.Length-1); } }
+    public uint StartArea { get => _startArea; set => _startArea = (uint)Math.Clamp(value, 0, areas.Length-1); }
 
     [Export]
     public bool generate { get => false; set => Generate(); }
 
+    private uint _MinAreas = 10;
     [Export]
-    public uint RecDepth = 3;
+    public uint MinAreas { get => _MinAreas; set => _MinAreas = (uint)Math.Clamp(value, 0, 50);  }
 
     private bool[,] occupiedTiles;
     private Vector2I midPoint;
 
-    private bool Recurse(Area area, uint connID, uint recursionsLeft)
+    private bool Recurse(Area area, uint id, uint connID, uint recursionsLeft)
     {
         // Add base case, if connection already exists at this position, return true
 
@@ -33,7 +34,11 @@ public partial class ProceduralLevel : Node3D
             return false;
 
         HashSet<uint> set = new HashSet<uint>();
-        for (uint i = 0; i < areas.Length; i++) set.Add(i);
+        for (uint i = 0; i < areas.Length; i++)
+        {
+            if (i == id) continue;
+            set.Add(i);
+        }
 
         while(set.Count > 0)
         {
@@ -69,7 +74,7 @@ public partial class ProceduralLevel : Node3D
                         {
                             if (j == i) continue;
 
-                            if(!Recurse(nextArea, j, recursionsLeft - 1))
+                            if(!Recurse(nextArea, areaID, j, recursionsLeft - 1))
                             {
                                 success = false; 
                                 break;
@@ -121,6 +126,29 @@ public partial class ProceduralLevel : Node3D
         area.Free();
     }
 
+    private uint NumAreas(Area area)
+    {
+        uint sum = 0;
+        for (int i = 0; i < area.connectedAreas.Length; i++)
+        {
+            if (area.connectedAreas[i] != null)
+                sum += NumAreas(area.connectedAreas[i]);
+        }
+
+        return sum + 1;
+    }
+
+    private void FixOffset(Area area)
+    {
+        for (int i = 0; i < area.connectedAreas.Length; i++)
+        {
+            if (area.connectedAreas[i] != null)
+                FixOffset(area.connectedAreas[i]);
+        }
+
+        area.Position += new Vector3((float)area.sizeX / 2f, 0, (float)area.sizeZ / 2f);
+    }
+
     private void SetOccupied(Area area)
     {
         Vector2I pos = new Vector2I((int)area.Position.X, (int)area.Position.Z);
@@ -160,7 +188,6 @@ public partial class ProceduralLevel : Node3D
     {
         uint newSizeX;
         uint newSizeZ;
-        Node3D node3d;
 
         switch (timesNintety)
         {
@@ -178,11 +205,7 @@ public partial class ProceduralLevel : Node3D
                     area.connPos[i].X = newX;
                     area.connPos[i].Y = newZ;
                 }
-
-                node3d = area.GetNode<Node3D>("Node3D");
-
-                node3d.Position = new Vector3((float)newSizeX / 2f, 0, (float)newSizeZ / 2f);
-                node3d.RotateY((float)Math.PI / 2f);
+                area.RotateY((float)Math.PI / 2f);
 
                 break;
             case 2:
@@ -193,11 +216,7 @@ public partial class ProceduralLevel : Node3D
                     area.connPos[i].X = newX;
                     area.connPos[i].Y = newZ;
                 }
-
-                node3d = area.GetNode<Node3D>("Node3D");
-
-                node3d.Position = new Vector3((float)area.sizeX / 2f, 0, (float)area.sizeZ / 2f);
-                node3d.RotateY(2f * (float)Math.PI / 2f);
+                area.RotateY(2f * (float)Math.PI / 2f);
                 break;
 
             case 3:
@@ -212,15 +231,13 @@ public partial class ProceduralLevel : Node3D
                     area.connPos[i].X = newX;
                     area.connPos[i].Y = newZ;
                 }
-
-                node3d = area.GetNode<Node3D>("Node3D");
-
-                node3d.Position = new Vector3((float)newSizeX / 2f, 0, (float)newSizeZ / 2f);
-                node3d.RotateY(3f*(float)Math.PI / 2f);
+                area.RotateY(3f*(float)Math.PI / 2f);
                 break;
         }
 
     }
+
+    
 
     private void Generate()
     {
@@ -243,11 +260,33 @@ public partial class ProceduralLevel : Node3D
 
         Area area = CreateArea(_startArea, 0);
         SetOccupied(area);
-
-        for(uint i = 0; i < area.connPos.Length; i++) Recurse(area, i, RecDepth);
-
         AddChild(area);
-        
 
+        bool success = true;
+        for (uint i = 0; i < area.connPos.Length; i++)
+        {
+            if (!Recurse(area, _startArea, i, MinAreas))
+            {
+                success = false;
+                break;
+            }
+        }
+
+        if (NumAreas(area) < MinAreas || !success)
+        {
+            RemoveArea(area);
+            Generate();
+        }
+        else
+        {
+            // Final touch so areas are offseted correctly
+            FixOffset(area);
+        }
+        
+    }
+
+    public override void _Ready()
+    {
+        Generate();
     }
 }
