@@ -1,19 +1,14 @@
-[gd_scene load_steps=17 format=3 uid="uid://6ni37uv40ekl"]
+[gd_scene load_steps=18 format=3 uid="uid://buqqt6rh56ors"]
 
-[ext_resource type="Script" path="res://Scripts/TestEnvironment.cs" id="1_abwh1"]
-[ext_resource type="Texture2D" uid="uid://dql8suwt8836v" path="res://Textures/metall seamless.jpg" id="1_bqjfg"]
-[ext_resource type="Texture2D" uid="uid://dwh2jqgjur6ng" path="res://Textures/wood box.jpg" id="2_0p8a6"]
-[ext_resource type="PackedScene" uid="uid://csgjrwgkd02h8" path="res://Scenes/Player.tscn" id="3_bx6t6"]
-[ext_resource type="PackedScene" uid="uid://cxcee755sg7so" path="res://Scenes/Enemy.tscn" id="4_6slxg"]
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_eq63e"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_axk2j"]
-albedo_texture = ExtResource("1_bqjfg")
-uv1_scale = Vector3(17.51, 17.51, 17.51)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_rdkxd"]
-size = Vector3(10, 0.2, 10)
+[ext_resource type="Script" path="res://Scripts/TestEnvironment.cs" id="1_l0wxw"]
+[ext_resource type="Texture2D" uid="uid://dwh2jqgjur6ng" path="res://Textures/wood box.jpg" id="3_kk8w5"]
+[ext_resource type="PackedScene" uid="uid://csgjrwgkd02h8" path="res://Scenes/Player.tscn" id="4_2ltia"]
+[ext_resource type="PackedScene" uid="uid://bc4l5dnl0xek0" path="res://ProceduralLevel/ProceduralLevel.tscn" id="5_b2ase"]
+[ext_resource type="PackedScene" uid="uid://cxcee755sg7so" path="res://Scenes/Enemy.tscn" id="5_h1cox"]
+[ext_resource type="PackedScene" uid="uid://jnpfh3ujbvt0" path="res://ProceduralLevel/Area6x6.tscn" id="6_qulr0"]
+[ext_resource type="PackedScene" uid="uid://bxctu3mwib5py" path="res://ProceduralLevel/Area8x8.tscn" id="7_bmsrb"]
+[ext_resource type="PackedScene" uid="uid://bc26vi5cyhpn1" path="res://ProceduralLevel/Area14x14.tscn" id="8_c626a"]
+[ext_resource type="PackedScene" uid="uid://ctu874xe1eswh" path="res://ProceduralLevel/Area20x20.tscn" id="9_u2hjd"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_mflkr"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -29,32 +24,20 @@ tonemap_mode = 2
 glow_enabled = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dvau2"]
-albedo_texture = ExtResource("2_0p8a6")
+albedo_texture = ExtResource("3_kk8w5")
 
 [sub_resource type="BoxMesh" id="BoxMesh_66goc"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_sxrj1"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3k4hi"]
-albedo_texture = ExtResource("2_0p8a6")
+albedo_texture = ExtResource("3_kk8w5")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_b2hjq"]
-albedo_texture = ExtResource("2_0p8a6")
+albedo_texture = ExtResource("3_kk8w5")
 
 [node name="TestEnvironment" type="Node3D"]
-script = ExtResource("1_abwh1")
-
-[node name="Floor" type="StaticBody3D" parent="."]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
-transform = Transform3D(5, 0, 0, 0, 1, 0, 0, 0, 5, 0, 0, -0.0128956)
-mesh = SubResource("PlaneMesh_eq63e")
-skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_axk2j")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
-shape = SubResource("BoxShape3D_rdkxd")
+script = ExtResource("1_l0wxw")
 
 [node name="Sun" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 5, 5, 5)
@@ -64,7 +47,7 @@ shadow_enabled = true
 environment = SubResource("Environment_eemnm")
 
 [node name="Cube" type="StaticBody3D" parent="."]
-transform = Transform3D(1.08001, 0, 0.523051, 0, 1.2, 0, -0.523051, 0, 1.08001, 0, 0.552223, -1.8136)
+transform = Transform3D(1.08001, 0, 0.523051, 0, 1.2, 0, -0.523051, 0, 1.08001, 10.5217, 0.552223, 8.05096)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Cube"]
 transform = Transform3D(1, 0, 2.98023e-08, 0, 1, 0, -2.98023e-08, 0, 1, 0, 0, 0)
@@ -75,7 +58,7 @@ mesh = SubResource("BoxMesh_66goc")
 shape = SubResource("BoxShape3D_sxrj1")
 
 [node name="Cube2" type="StaticBody3D" parent="."]
-transform = Transform3D(0.595732, 0, 0.0714376, 0, 0.6, 0, -0.0714376, 0, 0.595732, -1.85528, 0.273015, -0.841003)
+transform = Transform3D(0.595732, 0, 0.0714376, 0, 0.6, 0, -0.0714376, 0, 0.595732, 8.66637, 0.273015, 9.02355)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Cube2"]
 transform = Transform3D(1, 0, 2.23517e-08, 0, 1, 0, -2.23517e-08, 0, 1, 0, 0, 0)
@@ -87,7 +70,7 @@ transform = Transform3D(1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, 0, 0, 0)
 shape = SubResource("BoxShape3D_sxrj1")
 
 [node name="Cube3" type="StaticBody3D" parent="."]
-transform = Transform3D(0.799304, 0, 0.0333609, 0, 0.8, 0, -0.0333609, 0, 0.799304, 1.05719, 0.368006, -1.23064)
+transform = Transform3D(0.799304, 0, 0.0333609, 0, 0.8, 0, -0.0333609, 0, 0.799304, 11.5788, 0.368006, 8.63392)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Cube3"]
 material_override = SubResource("StandardMaterial3D_b2hjq")
@@ -97,12 +80,17 @@ mesh = SubResource("BoxMesh_66goc")
 transform = Transform3D(1, 0, 3.72529e-09, 0, 1, 0, -3.72529e-09, 0, 1, 0, 0, 0)
 shape = SubResource("BoxShape3D_sxrj1")
 
-[node name="Player" parent="." instance=ExtResource("3_bx6t6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+[node name="Player" parent="." instance=ExtResource("4_2ltia")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.5217, 0.5, 9.86456)
 wall_min_slide_angle = 0.0
 
-[node name="Enemy" parent="." instance=ExtResource("4_6slxg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.063, 0.472736, 1.938)
+[node name="Enemy" parent="." instance=ExtResource("5_h1cox")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.45865, 0.472736, 11.8026)
 
-[node name="Enemy2" parent="." instance=ExtResource("4_6slxg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.71046, 0.439022, 3.7464)
+[node name="Enemy2" parent="." instance=ExtResource("5_h1cox")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.2321, 0.439022, 13.611)
+
+[node name="ProceduralLevel" parent="." instance=ExtResource("5_b2ase")]
+areas = [ExtResource("6_qulr0"), ExtResource("7_bmsrb"), ExtResource("8_c626a"), ExtResource("9_u2hjd")]
+StartArea = 3
+MinAreas = 20

@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://bc26vi5cyhpn1"]
+
+[ext_resource type="Script" path="res://ProceduralLevel/Area.cs" id="1_o0r7d"]
+[ext_resource type="ArrayMesh" uid="uid://672dc6juolx2" path="res://ProceduralLevel/Area14x14.obj" id="2_ayg4g"]
+
+[node name="Area14x14" type="Node3D"]
+script = ExtResource("1_o0r7d")
+sizeX = 14
+sizeZ = 14
+connPos = PackedVector2Array(0, 3, 11, 14)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("2_ayg4g")

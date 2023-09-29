@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://dn84n2el1lssn"
+path="res://.godot/imported/Area20x20.obj-8f9f9129957ea7f9039e07aacd22a052.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Area20x20.obj-8f9f9129957ea7f9039e07aacd22a052.mesh"]
+
+source_file="res://ProceduralLevel/Area20x20.obj"
+dest_files=["res://.godot/imported/Area20x20.obj-8f9f9129957ea7f9039e07aacd22a052.mesh", "res://.godot/imported/Area20x20.obj-8f9f9129957ea7f9039e07aacd22a052.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true

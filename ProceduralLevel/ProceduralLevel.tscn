@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bc4l5dnl0xek0"]
+
+[ext_resource type="Script" path="res://ProceduralLevel/ProceduralLevel.cs" id="1_adni8"]
+
+[node name="ProceduralLevel" type="Node3D"]
+script = ExtResource("1_adni8")

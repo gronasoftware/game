@@ -1,0 +1,21 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://dsi0gv66hgu6j"
+path="res://.godot/imported/Area6x6.obj-de767024081c3e46d30a7d5584bd9eca.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Area6x6.obj-de767024081c3e46d30a7d5584bd9eca.mesh"]
+
+source_file="res://ProceduralLevel/Area6x6.obj"
+dest_files=["res://.godot/imported/Area6x6.obj-de767024081c3e46d30a7d5584bd9eca.mesh", "res://.godot/imported/Area6x6.obj-de767024081c3e46d30a7d5584bd9eca.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
