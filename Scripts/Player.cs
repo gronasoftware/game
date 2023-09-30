@@ -54,14 +54,12 @@ public partial class Player : CharacterBase
         {
             EmitSignal(SignalName.ShotFired, Transform.Origin, -Transform.Basis.Z);
         }
+        AnimationTree animationTree = GetNode<AnimationTree>("AnimationTree");
 
-        if (animPlayer != null)
-        {
-            if (Velocity.Length() != 0 && animPlayer.CurrentAnimation != "run")
-                animPlayer.Play("run");
-            if (Velocity.Length() == 0 && animPlayer.CurrentAnimation != "Idle")
-                animPlayer.Play("Idle");
-        }
+        // Set the state of the "Idle" animation to true if the player is not moving
+        animationTree.Set("parameters/conditions/Idle", direction == Vector3.Zero);
+        // Set the state of the "Run" animation to true if the player is moving
+        animationTree.Set("parameters/conditions/run", direction != Vector3.Zero);
 
         MoveAndSlide();
     }

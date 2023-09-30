@@ -88,12 +88,12 @@ shape = SubResource("BoxShape3D_8qe7y")
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, -5)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Wall3"]
-transform = Transform3D(0.1, 0, 0, 0, 1, 0, 0, 0, 10, 2, 0.500229, 8.74228e-08)
+transform = Transform3D(0.1, 0, 0, 0, 1, 0, 0, 0, 10, 0, 0.5, 0)
 mesh = SubResource("BoxMesh_uxxpi")
 skeleton = NodePath("../../Wall2")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Wall3"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.01234, 0.5, 8.79621e-08)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("BoxShape3D_8qe7y")
 
 [node name="Wall4" type="StaticBody3D" parent="."]
@@ -150,7 +150,7 @@ transform = Transform3D(1, 0, 3.72529e-09, 0, 1, 0, -3.72529e-09, 0, 1, 0, 0, 0)
 shape = SubResource("BoxShape3D_sxrj1")
 
 [node name="Player" parent="." instance=ExtResource("3_bx6t6")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.3088, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.650452, 0)
 wall_min_slide_angle = 0.0
 
 [node name="Enemy" parent="." instance=ExtResource("4_6slxg")]
