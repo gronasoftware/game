@@ -7,3 +7,5 @@
 *.csproj
 *.sln
 .vs/
+
+.config/
