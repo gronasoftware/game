@@ -13,13 +13,9 @@ public abstract partial class CharacterBase : CharacterBody3D
     [Export]
     public int health = 100;
 
-    public override void _Ready()
-    {
-    }
+    public override void _Ready() { }
 
-    public override void _ExitTree()
-    {
-    }
+    public override void _ExitTree() { }
 
     public void ReduceHealth(int amount)
     {
