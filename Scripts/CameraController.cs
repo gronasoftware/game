@@ -1,8 +1,6 @@
 using Godot;
 using System;
 
-
-
 public partial class CameraController : Camera3D
 {
     [Export]
@@ -31,4 +29,3 @@ public partial class CameraController : Camera3D
         }
     }
 }
-    

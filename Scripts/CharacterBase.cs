@@ -5,10 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 public abstract partial class CharacterBase : CharacterBody3D
 {
-
     [Signal]
     public delegate void ShotFiredEventHandler(Vector3 origin, Vector3 direction);
 
