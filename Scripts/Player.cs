@@ -20,6 +20,17 @@ public partial class Player : CharacterBase
 
 		public override void _PhysicsProcess(double delta)
 	{
+		if (Input.IsActionJustPressed("change_weapon"))
+		{
+			if (currentWeapon == GetNode<Weapon>("ProjectileWeapon"))
+			{
+				currentWeapon = GetNode<Weapon>("InstantWeapon");
+			}
+			else
+			{
+				currentWeapon = GetNode<Weapon>("ProjectileWeapon");
+			}
+		}
 		// https://ask.godotengine.org/25922/how-to-get-3d-position-of-the-mouse-cursor
 
 		var camera = GetViewport().GetCamera3D();

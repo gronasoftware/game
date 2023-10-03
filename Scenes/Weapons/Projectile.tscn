@@ -2,16 +2,17 @@
 
 [ext_resource type="Script" path="res://Scripts/Weapons/Projectile.cs" id="1_8f88k"]
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_g0gt2"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_5w67x"]
 
 [node name="Projectile" type="AnimatableBody3D"]
+collision_layer = 8
+collision_mask = 7
 sync_to_physics = false
 script = ExtResource("1_8f88k")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.4, 0, 0, 0)
-shape = SubResource("SphereShape3D_g0gt2")
-disabled = true
+transform = Transform3D(1.80813e-16, 8.74228e-09, 0.2, 0.2, -8.74228e-09, 0, 8.74228e-09, 0.2, -8.74228e-09, 0.00529672, 0, -0.00389753)
+shape = SubResource("CapsuleShape3D_5w67x")
 
-[node name="CSGSphere3D" type="CSGSphere3D" parent="."]
-transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.4, 0, 0, 0)
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
+transform = Transform3D(9.04064e-17, 4.37114e-09, 0.1, 0.1, -4.37114e-09, 0, 4.37114e-09, 0.1, -4.37114e-09, -0.00389753, 0.0109737, -0.00529672)

@@ -10,6 +10,8 @@
 radius = 0.3
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("animPlayer") groups=["Combatant"]]
+collision_layer = 2
+collision_mask = 3
 script = ExtResource("1_jfkhu")
 animPlayer = NodePath("body/AnimationPlayer")
 

@@ -21,5 +21,7 @@ public partial class ProjectileWeapon : Weapon
 		var projectile = (Projectile)_projectileScene.Instantiate();
 		GetTree().Root.AddChild(projectile);
 		projectile.GlobalTransform = GlobalTransform;
+		// Spawn projectile slightly in front of the player
+		projectile.GlobalPosition += -GlobalTransform.Basis.Z * .5f;
 	}
 }

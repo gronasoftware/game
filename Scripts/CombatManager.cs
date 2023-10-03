@@ -38,6 +38,7 @@ public partial class CombatManager : Node3D
 		Vector3 origin = weapon.GlobalTransform.Origin;
 		Vector3 direction = -weapon.GlobalTransform.Basis.Z;
 
+		/*
 		if (weapon is ProjectileWeapon) {
 			weapon.Shoot();
 		}
@@ -71,5 +72,6 @@ public partial class CombatManager : Node3D
 				}
 			}
 		}	
+		*/
 	}
 }

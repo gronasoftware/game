@@ -14,6 +14,7 @@ albedo_color = Color(1, 0, 0, 1)
 viewport_path = NodePath("SubViewport")
 
 [node name="Enemy" type="CharacterBody3D" groups=["Combatant", "Enemy"]]
+collision_layer = 4
 script = ExtResource("1_s86cf")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
