@@ -1,27 +1,24 @@
 using Godot;
 using System;
 
-
-public partial class ProjectileWeapon : Weapon 
+public partial class ProjectileWeapon : Weapon
 {
-	private PackedScene _projectileScene = (PackedScene)GD.Load("res://Scenes/Weapons/Projectile.tscn");
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-	}
+    private PackedScene _projectileScene = (PackedScene)
+        GD.Load("res://Scenes/Weapons/Projectile.tscn");
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-	}
+    // Called when the node enters the scene tree for the first time.
+    public override void _Ready() { }
 
-	public override void Shoot()
-	{
-		// Spawn a projectile
-		var projectile = (Projectile)_projectileScene.Instantiate();
-		GetTree().Root.AddChild(projectile);
-		projectile.GlobalTransform = GlobalTransform;
-		// Spawn projectile slightly in front of the player
-		projectile.GlobalPosition += -GlobalTransform.Basis.Z * .5f;
-	}
+    // Called every frame. 'delta' is the elapsed time since the previous frame.
+    public override void _Process(double delta) { }
+
+    public override void Shoot()
+    {
+        // Spawn a projectile
+        var projectile = (MovingProjectile)_projectileScene.Instantiate();
+        projectile.GlobalTransform = GlobalTransform;
+        GetTree().Root.AddChild(projectile);
+        // Spawn projectile slightly in front of the player
+        projectile.GlobalPosition += -GlobalTransform.Basis.Z * .5f;
+    }
 }

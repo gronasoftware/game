@@ -1,14 +1,14 @@
 using Godot;
 using System;
 
-public partial class Projectile : AnimatableBody3D
+public partial class MovingProjectile : AnimatableBody3D, IProjectile
 {
     private bool _hasHit = false;
+    public int damage { get; set; } = 30;
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        GD.Print("Created projectile");
     }
 
     // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -22,14 +22,15 @@ public partial class Projectile : AnimatableBody3D
         {
             // Emit a signal
             //EmitSignal(nameof(HitSomething), collision.Collider);
-            if (!_hasHit) {
-                GD.Print("Hit something");
-								//CombatManager combatManager = (CombatManager)GetTree().Root.FindChild("CombatManager");
-								//EmitSignal(SignalName.ProjectileHit, collision);
-								if (collision.GetCollider() is CharacterBase character) {
-									character.ReduceHealth(10);
-								}
-						}
+            if (!_hasHit)
+            {
+                //CombatManager combatManager = (CombatManager)GetTree().Root.FindChild("CombatManager");
+                //EmitSignal(SignalName.ProjectileHit, collision);
+                if (collision.GetCollider() is ICombatant combatant)
+                {
+                    combatant.Hit(this);
+                }
+            }
             _hasHit = true;
             // Destroy the projectile
             //QueueFree();

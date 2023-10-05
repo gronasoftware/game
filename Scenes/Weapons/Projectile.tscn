@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bi2a6hqjg0qhr"]
 
-[ext_resource type="Script" path="res://Scripts/Weapons/Projectile.cs" id="1_8f88k"]
+[ext_resource type="Script" path="res://Scripts/Weapons/MovingProjectile.cs" id="1_v571t"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_5w67x"]
 
@@ -8,7 +8,7 @@
 collision_layer = 8
 collision_mask = 7
 sync_to_physics = false
-script = ExtResource("1_8f88k")
+script = ExtResource("1_v571t")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1.80813e-16, 8.74228e-09, 0.2, 0.2, -8.74228e-09, 0, 8.74228e-09, 0.2, -8.74228e-09, 0.00529672, 0, -0.00389753)

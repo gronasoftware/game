@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-public abstract partial class CharacterBase : CharacterBody3D
+public abstract partial class CharacterBase : CharacterBody3D, ICombatant
 {
 
     [Signal]
@@ -33,6 +33,11 @@ public abstract partial class CharacterBase : CharacterBody3D
             health = 0;
             NoMoreHealth();
         }
+    }
+
+    public void Hit(IProjectile projectile)
+    {
+        ReduceHealth(projectile.damage);
     }
 
     public void IncreaseHealth(int amount)
