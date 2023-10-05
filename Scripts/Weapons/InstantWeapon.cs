@@ -3,7 +3,9 @@ using System;
 
 public partial class InstantWeapon : Weapon
 {
-    //private PackedScene _projectileScene = (PackedScene)GD.Load("res://Scenes/Weapons/InstantProjectile.tscn");
+    private PackedScene _projectileScene = (PackedScene)
+        GD.Load("res://Scenes/Weapons/InstantProjectile.tscn");
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready() { }
 
@@ -14,7 +16,7 @@ public partial class InstantWeapon : Weapon
     {
         // Spawn a projectile
         //var projectile = (MovingProjectile)_projectileScene.Instantiate();
-        var projectile = new InstantProjectile();
+        var projectile = (InstantProjectile)_projectileScene.Instantiate();
         projectile.GlobalTransform = GlobalTransform;
         GetTree().Root.AddChild(projectile);
         // Spawn projectile slightly in front of the player

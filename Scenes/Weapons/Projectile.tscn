@@ -1,8 +1,11 @@
-[gd_scene load_steps=3 format=3 uid="uid://bi2a6hqjg0qhr"]
+[gd_scene load_steps=4 format=3 uid="uid://bi2a6hqjg0qhr"]
 
 [ext_resource type="Script" path="res://Scripts/Weapons/MovingProjectile.cs" id="1_v571t"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_5w67x"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tkiiu"]
+albedo_color = Color(0.0941176, 0.0941176, 0.0941176, 1)
 
 [node name="Projectile" type="AnimatableBody3D"]
 collision_layer = 8
@@ -11,8 +14,9 @@ sync_to_physics = false
 script = ExtResource("1_v571t")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1.80813e-16, 8.74228e-09, 0.2, 0.2, -8.74228e-09, 0, 8.74228e-09, 0.2, -8.74228e-09, 0.00529672, 0, -0.00389753)
+transform = Transform3D(5.42438e-17, 2.62268e-09, 0.06, 0.06, -2.62268e-09, 6.03973e-17, 2.62268e-09, 0.06, -2.62268e-09, 0.00529672, 0, -0.00389753)
 shape = SubResource("CapsuleShape3D_5w67x")
 
 [node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
-transform = Transform3D(9.04064e-17, 4.37114e-09, 0.1, 0.1, -4.37114e-09, 0, 4.37114e-09, 0.1, -4.37114e-09, -0.00389753, 0.0109737, -0.00529672)
+transform = Transform3D(4.52032e-17, 2.18557e-09, 0.05, 0.05, -2.18557e-09, 5.03311e-17, 2.18557e-09, 0.05, -2.18557e-09, 0, 0, 0)
+material = SubResource("StandardMaterial3D_tkiiu")
