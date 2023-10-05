@@ -66,9 +66,10 @@ public partial class Player : CharacterBase
 
 		Velocity = direction * Speed;
 
-		if (Input.IsActionJustPressed("shoot"))
+		if (Input.IsActionPressed("shoot"))
 		{
-			EmitSignal(SignalName.ShotFired, currentWeapon);
+			//EmitSignal(SignalName.ShotFired, currentWeapon);
+			currentWeapon.Shoot();
 		}
 
 		if(animPlayer != null)
