@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://coc6y56qrt85x"]
+
+[ext_resource type="Script" path="res://Scripts/Weapons/GrenadeWeapon.cs" id="1_r0neh"]
+
+[node name="GrenadeWeapon" type="Node3D"]
+script = ExtResource("1_r0neh")
