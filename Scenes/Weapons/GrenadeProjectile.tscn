@@ -1,8 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://mks8tc3br3uu"]
+[gd_scene load_steps=6 format=3 uid="uid://mks8tc3br3uu"]
 
 [ext_resource type="Script" path="res://Scripts/Weapons/GrenadeProjectile.cs" id="1_1ag1u"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_am4xj"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_cbkhl"]
+albedo_color = Color(0.129412, 0.419608, 0.0941176, 1)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_qmgof"]
 
@@ -19,6 +22,7 @@ shape = SubResource("SphereShape3D_am4xj")
 
 [node name="CSGSphere3D" type="CSGSphere3D" parent="."]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
+material = SubResource("StandardMaterial3D_cbkhl")
 
 [node name="ExplosionArea" type="Area3D" parent="."]
 collision_layer = 8
