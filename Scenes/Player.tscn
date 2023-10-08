@@ -33,7 +33,7 @@ states/run/node = SubResource("AnimationNodeAnimation_gaten")
 states/run/position = Vector2(312, 35)
 transitions = ["Start", "Idle", SubResource("AnimationNodeStateMachineTransition_2kuyu"), "Idle", "run", SubResource("AnimationNodeStateMachineTransition_rumu4"), "run", "Idle", SubResource("AnimationNodeStateMachineTransition_rw30h")]
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("animPlayer")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("animPlayer") groups=["Combatant"]]
 script = ExtResource("1_jfkhu")
 animPlayer = NodePath("body/AnimationPlayer")
 
