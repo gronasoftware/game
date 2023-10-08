@@ -4,151 +4,186 @@ using System.Diagnostics;
 
 public partial class Player : CharacterBase
 {
-    private MeshInstance3D mousePositionSphere = null;
+	private MeshInstance3D mousePositionSphere = null;
 
-    [Export]
-    private AnimationPlayer animPlayer;
+	[Export]
+	private Vector2 inputDirection;
 
-    public override void _PhysicsProcess(double delta)
-    {
-        ProcessInput((float)delta);
-        CalculateVelocity((float)delta);
-        CalculateDirection();
-        // https://ask.godotengine.org/25922/how-to-get-3d-position-of-the-mouse-cursor
+	[Export]
+	private Vector3 velocity;
 
-        var camera = GetViewport().GetCamera3D();
-        var mousePosition2D = GetViewport().GetMousePosition();
-        // After we turn on gravity, we should update this to use the plane that the player is standing on (instead of the Y=0 plane)
-        //var dropPlane = new Plane(Vector3.Up, 0);
-        var dropPlane = new Plane(Vector3.Up, Transform.Origin.Y);
+	[Export]
+	private Vector3 direction;
 
-        Vector3 mousePosition3D =
-            dropPlane.IntersectsRay(
-                camera.ProjectRayOrigin(mousePosition2D),
-                camera.ProjectRayNormal(mousePosition2D)
-            ) ?? Vector3.Forward;
+	[Export]
+	private const float gravity = 9.8f;
 
-        // DEBUG STUFF:::
-        // Draw a sphere at mousePosition3D
-        var sphere = new SphereMesh();
-        sphere.Radius = 0.1f;
-        sphere.Height = 0.1f;
-        var sphereInstance = new MeshInstance3D();
-        sphereInstance.Mesh = sphere;
-        // Again, this should be updated after we turn on gravity
-        sphereInstance.Position = new Vector3(
-            mousePosition3D.X,
-            mousePosition3D.Y,
-            mousePosition3D.Z
-        );
-        mousePositionSphere?.QueueFree();
-        mousePositionSphere = sphereInstance;
-        GetParent().AddChild(sphereInstance);
+	[Export]
+	public const float moveSpeed = 5f;
 
-        Transform = Transform.LookingAt(
-            new Vector3(mousePosition3D.X, Transform.Origin.Y, mousePosition3D.Z),
-            Vector3.Up
-        );
+	[Export]
+	private const float terminalVelocity = 600f;
 
-        if (Input.IsActionJustPressed("shoot"))
-        {
-            EmitSignal(SignalName.ShotFired, Transform.Origin, -Transform.Basis.Z);
-        }
-        AnimationTree animationTree = GetNode<AnimationTree>("AnimationTree");
+	[Export] //max time between dash presses in seconds
+	private const float maxDashDelay = 0.5f;
 
-        // Set the state of the "Idle" animation to true if the player is not moving
-        animationTree.Set("parameters/conditions/Idle", direction == Vector3.Zero);
-        // Set the state of the "Run" animation to true if the player is moving
-        animationTree.Set("parameters/conditions/run", direction != Vector3.Zero);
+	[Export] //how long to wait before the player can dash again in seconds
+	private const float maxDashTimeOut = 0.0f;
 
-        MoveAndSlide();
-    }
+	[Export] //how long each dash lasts in seconds
+	private const float maxDashTime = 0.1f;
 
-    public override void NoMoreHealth()
-    {
-        GD.Print("Game Over!");
-    }
+	[Export] //how fast the player will dash
+	private const float dashSpeed = 20f;
 
-    #region Input
+	[Export] //timer for dash
+	private float dashTimer = 0.0f;
 
-    private Vector2 inputDir;
+	[Export] //timer for dash time out
+	private float dashTimeOut = 0.0f;
 
-    private void ProcessInput(float delta)
-    {
-        inputDir = Input.GetVector("move_left", "move_right", "move_forward", "move_backward");
-    }
+	[Export] //how many times the player has pressed the dash button
+	private int dashPressCount = 0;
 
-    #endregion
+	[Export] //is the player dashing
+	private bool dashing = false;
 
-    #region Velocity
-    private Vector3 velocity;
-    private float previousVelocityY,
-        newVelocityY;
-    private float previuosVelocityX,
-        newVelocityX;
-    private float previuosVelocityZ,
-        newVelocityZ;
+	[Export] //how fast the player will move
+	private float speed = moveSpeed;
 
-    [Export]
-    public const float speed = 5f;
+	private InputStates spaceDash;
 
-    /// <summary>
-    /// Calculate the bi-velocity and apply it to the character body
-    /// </summary>
-    /// <param name="delta"></param>
-    private void CalculateVelocity(float delta)
-    {
-        velocity = Velocity;
-        CalculateVelocityY(ref velocity, delta);
-        CalculateVelocityXZ(ref velocity, delta);
-        Velocity = velocity;
-    }
+	public override void _Ready()
+	{
+		spaceDash = new InputStates("dash");
+	}
 
-    private void CalculateVelocityY(ref Vector3 vel, float delta)
-    {
-        ApplyGravity(ref vel, delta);
-    }
+	public override void _PhysicsProcess(double delta)
+	{
+		velocity = Velocity;
+		//get input vector
+		inputDirection = Input.GetVector(
+			"move_left",
+			"move_right",
+			"move_forward",
+			"move_backward"
+		);
 
-    private void CalculateVelocityXZ(ref Vector3 vel, float delta)
-    {
-        previuosVelocityX = velocity.X;
-        previuosVelocityZ = velocity.Z;
-        newVelocityX = direction.X * speed;
-        newVelocityZ = direction.Z * speed;
-        vel.X = (previuosVelocityX + newVelocityX) * .5f;
-        vel.Z = (previuosVelocityZ + newVelocityZ) * .5f;
-    }
-    #endregion
+		// lock the direction if the player is dashing to prevent movement while dashing
+		if (dashing)
+			direction = new Vector3(direction.X, 0, direction.Z).Normalized();
+		else
+			direction = new Vector3(inputDirection.X, 0, inputDirection.Y).Normalized();
 
-    #region Gravity
-    [Export]
-    private const float gravity = 9.8f;
+		if (!IsOnFloor())
+		{
+			float previousVelocityY = velocity.Y;
+			float newVelocityY = velocity.Y - gravity * (float)delta;
+			newVelocityY = Mathf.Clamp(newVelocityY, -Mathf.Inf, terminalVelocity);
+			velocity.Y = (previousVelocityY + newVelocityY) * .5f;
+		}
 
-    [Export]
-    private const float terminalVelocity = 600f;
+		// keep track of the time since the player last dashed
+		if (dashTimeOut > 0.0f)
+		{
+			dashTimeOut -= (float)delta;
+			GD.Print(dashTimeOut);
+		}
+		//  only attempt to dash if the player's not dashing
+		if (spaceDash.CheckState() == InputStates.INPUT_JUST_PRESSED && !dashing)
+			dashPressCount++; // increment dash count
+		// start the dash timer when player just presses the dash button
+		if (dashPressCount > 0 && !dashing)
+		{
+			dashTimer += (float)delta; //increment dash timer
+			// the player took too long to perform the second tap so reset values
+			if (dashTimer > maxDashDelay)
+			{
+				dashPressCount = 0;
+				dashTimer = 0.0f;
+			}
+		}
+		//if the player has pressed the dash button once(or twice idunno) and is not dashing adn the dash timeout is over
+		if (dashPressCount >= 2 && !dashing && dashTimeOut <= 0.0f)
+		{
+			dashing = true;
+			dashPressCount = 0;
+			dashTimer = 0.0f;
+			speed = dashSpeed;
+		}
+		if (dashing)
+		{
+			dashTimer += (float)delta;
+			GD.Print(dashTimer);
+			if (dashTimer >= maxDashTime)
+			{
+				dashing = false;
+				dashTimer = 0.0f;
+				speed = moveSpeed;
+				dashTimeOut = maxDashTimeOut;
+			}
+		}
 
-    /// <summary>
-    /// Apply gravity to the velocity
-    /// </summary>
-    /// <param name="vel"></param>
-    /// <param name="delta"></param>
-    private void ApplyGravity(ref Vector3 vel, float delta)
-    {
-        if (IsOnFloor())
-            return;
-        previousVelocityY = velocity.Y;
-        newVelocityY = vel.Y - gravity * delta;
-        newVelocityY = Mathf.Clamp(newVelocityY, -Mathf.Inf, terminalVelocity);
-        vel.Y = (previousVelocityY + newVelocityY) * .5f;
-    }
-    #endregion
+		float previuosVelocityX = velocity.X;
+		float previuosVelocityZ = velocity.Z;
+		float newVelocityX = direction.X * speed;
+		float newVelocityZ = direction.Z * speed;
+		velocity.X = (previuosVelocityX + newVelocityX) * .5f;
+		velocity.Z = (previuosVelocityZ + newVelocityZ) * .5f;
 
-    #region Direction
-    private Vector3 direction;
+		Velocity = velocity;
+		MoveAndSlide();
 
-    private void CalculateDirection()
-    {
-        direction = new Vector3(inputDir.X, 0, inputDir.Y).Normalized();
-    }
-    #endregion
+		AnimationTree animationTree = GetNode<AnimationTree>("AnimationTree");
+		// Set the state of the "Idle" animation to true if the player is not moving
+		animationTree.Set("parameters/conditions/Idle", direction == Vector3.Zero);
+		// Set the state of the "Run" animation to true if the player is moving
+		animationTree.Set("parameters/conditions/run", direction != Vector3.Zero);
+
+		// https://ask.godotengine.org/25922/how-to-get-3d-position-of-the-mouse-cursor
+
+		var camera = GetViewport().GetCamera3D();
+		var mousePosition2D = GetViewport().GetMousePosition();
+		// After we turn on gravity, we should update this to use the plane that the player is standing on (instead of the Y=0 plane)
+		//var dropPlane = new Plane(Vector3.Up, 0);
+		var dropPlane = new Plane(Vector3.Up, Transform.Origin.Y);
+
+		Vector3 mousePosition3D =
+			dropPlane.IntersectsRay(
+				camera.ProjectRayOrigin(mousePosition2D),
+				camera.ProjectRayNormal(mousePosition2D)
+			) ?? Vector3.Forward;
+
+		// DEBUG STUFF:::
+		// Draw a sphere at mousePosition3D
+		var sphere = new SphereMesh();
+		sphere.Radius = 0.1f;
+		sphere.Height = 0.1f;
+		var sphereInstance = new MeshInstance3D();
+		sphereInstance.Mesh = sphere;
+		// Again, this should be updated after we turn on gravity
+		sphereInstance.Position = new Vector3(
+			mousePosition3D.X,
+			mousePosition3D.Y,
+			mousePosition3D.Z
+		);
+		mousePositionSphere?.QueueFree();
+		mousePositionSphere = sphereInstance;
+		GetParent().AddChild(sphereInstance);
+
+		Transform = Transform.LookingAt(
+			new Vector3(mousePosition3D.X, Transform.Origin.Y, mousePosition3D.Z),
+			Vector3.Up
+		);
+
+		if (Input.IsActionJustPressed("shoot"))
+		{
+			EmitSignal(SignalName.ShotFired, Transform.Origin, -Transform.Basis.Z);
+		}
+	}
+
+	public override void NoMoreHealth()
+	{
+		GD.Print("Game Over!");
+	}
 }
