@@ -1,0 +1,22 @@
+[gd_scene load_steps=6 format=3 uid="uid://cxsf5sonphxgn"]
+
+[ext_resource type="ArrayMesh" uid="uid://b6t1o2p20fa6g" path="res://supermarket/floor.obj" id="3_4lthw"]
+[ext_resource type="Texture2D" uid="uid://dm2k3drynavjn" path="res://supermarket/floor albedo2.jpg" id="3_xgqnn"]
+[ext_resource type="Texture2D" uid="uid://coxcej3bacjfa" path="res://supermarket/floor albedo.jpg" id="4_tjlu5"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q4i7e"]
+albedo_texture = ExtResource("4_tjlu5")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2cmoy"]
+albedo_texture = ExtResource("3_xgqnn")
+
+[node name="Node3D" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("3_4lthw")
+surface_material_override/0 = SubResource("StandardMaterial3D_q4i7e")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+mesh = ExtResource("3_4lthw")
+skeleton = NodePath("../MeshInstance3D")
+surface_material_override/0 = SubResource("StandardMaterial3D_2cmoy")
