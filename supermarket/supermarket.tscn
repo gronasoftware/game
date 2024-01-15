@@ -1,9 +1,16 @@
-[gd_scene load_steps=12 format=3 uid="uid://bc6lkcmc6pd8c"]
+[gd_scene load_steps=18 format=3 uid="uid://bc6lkcmc6pd8c"]
 
+[ext_resource type="MeshLibrary" uid="uid://0w0cwtyswlhq" path="res://supermarket/shelf.tres" id="1_xankc"]
 [ext_resource type="MeshLibrary" uid="uid://d0xbxfkngbeu6" path="res://supermarket/wall.tres" id="2_stmk2"]
 [ext_resource type="MeshLibrary" uid="uid://bde32rjl2wjaw" path="res://supermarket/ground.tres" id="3_gjo51"]
 [ext_resource type="MeshLibrary" uid="uid://dld34m7cb0nuj" path="res://supermarket/floor.tres" id="3_vx8fq"]
 [ext_resource type="PackedScene" uid="uid://csgjrwgkd02h8" path="res://Scenes/Player.tscn" id="4_8yfui"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_fshlo"]
+size = Vector3(0.1, 0.6, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2p0o8"]
+albedo_color = Color(1, 0.501961, 0.431373, 1)
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_50241"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -18,26 +25,79 @@ sky = SubResource("Sky_2lgxi")
 tonemap_mode = 2
 glow_enabled = true
 
+[sub_resource type="BoxMesh" id="BoxMesh_bfbbd"]
+size = Vector3(24, 2.975, 15)
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_dn33t"]
-size = Vector3(15, 0.2, 15)
+size = Vector3(30, 0.2, 30)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_sb2jc"]
 size = Vector3(0.4, 2.5, 15)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_tnh8w"]
-size = Vector3(15, 2.5, 0.4)
+size = Vector3(24, 2.5, 0.4)
 
-[sub_resource type="BoxMesh" id="BoxMesh_ununo"]
-size = Vector3(15, 1, 15)
+[sub_resource type="BoxShape3D" id="BoxShape3D_67d4t"]
+size = Vector3(8.8, 2.5, 0.6)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ccv1c"]
+size = Vector3(8.8, 2.5, 1.2)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_a48k3"]
+size = Vector3(5.8, 2.5, 1.2)
 
 [node name="supermarket" type="Node3D"]
+
+[node name="shelves" type="Node3D" parent="."]
+
+[node name="shelves1" type="GridMap" parent="shelves"]
+mesh_library = ExtResource("1_xankc")
+cell_size = Vector3(3, 2, 3)
+cell_center_y = false
+data = {
+"cells": PackedInt32Array(65534, 65532, 1048576, 65535, 65532, 1441792, 65535, 65533, 1441792, 65535, 65534, 1441792, 65534, 65533, 1048576, 65534, 65534, 1048576)
+}
+
+[node name="shelves2" type="GridMap" parent="shelves"]
+mesh_library = ExtResource("1_xankc")
+cell_size = Vector3(3, 2, 3)
+cell_center_y = false
+data = {
+"cells": PackedInt32Array(65534, 65532, 1441792, 65535, 65532, 1441792, 65535, 65533, 1441792, 65535, 65534, 1441792, 65534, 65533, 1441792, 65534, 65534, 1441792, 65533, 65532, 1048576, 65533, 65533, 1048576, 65533, 65534, 1048576, 65531, 65533, 1048576, 65531, 65532, 1048576, 65532, 65532, 1441792, 65532, 65533, 1441792, 65532, 65531, 655361, 65533, 65531, 655361, 65534, 65531, 655361)
+}
+
+[node name="signs" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="signs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2.5, -7.5)
+mesh = SubResource("BoxMesh_fshlo")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_2p0o8")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="signs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 2.5, -7.5)
+mesh = SubResource("BoxMesh_fshlo")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_2p0o8")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="signs"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 2.5, -9)
+mesh = SubResource("BoxMesh_fshlo")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_2p0o8")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="signs"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -7.5, 2.5, -14.5)
+mesh = SubResource("BoxMesh_fshlo")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_2p0o8")
 
 [node name="floors" type="GridMap" parent="."]
 mesh_library = ExtResource("3_vx8fq")
 cell_size = Vector3(3, 3, 3)
 cell_center_y = false
 data = {
-"cells": PackedInt32Array(65535, 65531, 0, 65532, 65532, 655360, 65534, 65531, 655360, 65532, 65531, 1441792, 65533, 65531, 0, 65533, 65532, 0, 65534, 65533, 655361, 65533, 65533, 0, 65534, 65532, 0, 65535, 65532, 0, 65535, 65533, 0, 65535, 65534, 0, 65534, 65534, 0, 65533, 65534, 655360, 65532, 65533, 0, 65531, 65534, 1048576, 65531, 65535, 0, 65535, 65535, 0, 65534, 65535, 0, 65533, 65535, 0, 65532, 65535, 1048576, 65532, 65534, 1441792, 65531, 65533, 0, 65531, 65532, 0, 65531, 65531, 0)
+"cells": PackedInt32Array(65535, 65531, 0, 65532, 65532, 655360, 65534, 65531, 655360, 65532, 65531, 1441792, 65533, 65531, 0, 65533, 65532, 0, 65534, 65533, 0, 65533, 65533, 0, 65534, 65532, 0, 65535, 65532, 0, 65535, 65533, 0, 65535, 65534, 0, 65534, 65534, 0, 65533, 65534, 655360, 65532, 65533, 0, 65531, 65534, 1048576, 65531, 65535, 0, 65535, 65535, 0, 65534, 65535, 0, 65533, 65535, 0, 65532, 65535, 0, 65532, 65534, 1441792, 65531, 65533, 0, 65531, 65532, 0, 65531, 65531, 0, 0, 65531, 0, 1, 65531, 0, 2, 65531, 0, 2, 65532, 0, 1, 65532, 0, 0, 65532, 1, 0, 65533, 0, 1, 65533, 1441792, 2, 65533, 0, 2, 65535, 0, 1, 65535, 1048576, 0, 65535, 0, 0, 65534, 0, 1, 65534, 0, 2, 65534, 0)
 }
 metadata/_editor_floor_ = Vector3(0, 0, 0)
 
@@ -46,86 +106,154 @@ mesh_library = ExtResource("2_stmk2")
 cell_size = Vector3(3, 3, 3)
 cell_center_y = false
 data = {
-"cells": PackedInt32Array(0, 65534, 1048576, 0, 65533, 1048576, 0, 65532, 1048576, 0, 65531, 1048576, 0, 65535, 1048576, 65535, 0, 0, 65534, 0, 0, 65533, 0, 0, 65532, 0, 0, 65531, 0, 0, 65530, 65535, 1441792, 65530, 65534, 1441792, 65530, 65533, 1441792, 65530, 65531, 1441792, 65530, 65532, 1441792, 65531, 65530, 655360, 65532, 65530, 655360, 65533, 65530, 655360, 65534, 65530, 655360, 65535, 65530, 655360)
+"cells": PackedInt32Array(65535, 0, 0, 65534, 0, 0, 65533, 0, 0, 65532, 0, 0, 65531, 0, 0, 65530, 65535, 1441792, 65530, 65534, 1441792, 65530, 65533, 1441792, 65530, 65531, 1441792, 65530, 65532, 1441792, 65531, 65530, 655360, 65532, 65530, 655360, 65533, 65530, 655360, 65534, 65530, 655360, 65535, 65530, 655360, 0, 65530, 655360, 1, 65530, 655360, 2, 65530, 655360, 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 65535, 1048576, 3, 65534, 1048576, 3, 65533, 1048576, 3, 65532, 1048576, 3, 65531, 1048576)
 }
 metadata/_editor_floor_ = Vector3(0, 0, 0)
 
 [node name="ground" type="GridMap" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.021, 0)
 mesh_library = ExtResource("3_gjo51")
 cell_size = Vector3(15, 2, 15)
 cell_center_y = false
 data = {
-"cells": PackedInt32Array(0, 65535, 1048576, 0, 0, 1048576, 65535, 0, 1048576, 0, 65534, 1048576, 65535, 65534, 1048576, 65534, 65534, 1048576, 65534, 65535, 1048576, 65534, 0, 1048576, 65533, 65533, 1048576, 65534, 65533, 1048576, 65535, 65533, 1048576, 0, 65533, 1048576, 1, 65533, 1048576, 1, 65534, 1048576, 1, 65535, 1048576, 1, 0, 1048576, 1, 1, 1048576, 0, 1, 1048576, 65535, 1, 1048576, 65534, 1, 1048576, 65533, 1, 1048576, 65533, 0, 1048576, 65533, 65535, 1048576, 65533, 65534, 1048576)
+"cells": PackedInt32Array(0, 0, 1048576, 65535, 0, 1048576, 0, 65534, 1048576, 65535, 65534, 1048576, 65534, 65534, 1048576, 65534, 65535, 1048576, 65534, 0, 1048576, 65533, 65533, 1048576, 65534, 65533, 1048576, 65535, 65533, 1048576, 0, 65533, 1048576, 1, 65533, 1048576, 1, 65534, 1048576, 1, 0, 1048576, 1, 1, 1048576, 0, 1, 1048576, 65535, 1, 1048576, 65534, 1, 1048576, 65533, 1, 1048576, 65533, 0, 1048576, 65533, 65535, 1048576, 65533, 65534, 1048576, 1, 65535, 0, 2, 65533, 1048576, 2, 65534, 1048576, 2, 65535, 1048576, 2, 0, 1048576, 2, 1, 1048576, 0, 65535, 1048576, 65535, 65535, 1048576)
 }
 
 [node name="Player" parent="." instance=ExtResource("4_8yfui")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 0.5, -7.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5, 0.5, -3.5)
 
-[node name="Sun" type="DirectionalLight3D" parent="."]
+[node name="lights&environment" type="Node3D" parent="."]
+
+[node name="SpotLight3D" type="SpotLight3D" parent="lights&environment"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -3.35169, 4.23511, -4)
+light_energy = 1.8
+shadow_enabled = true
+shadow_opacity = 0.7
+shadow_blur = 2.5
+spot_range = 12.969
+spot_angle = 77.37
+
+[node name="SpotLight3D2" type="SpotLight3D" parent="lights&environment"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -11.1815, 4.23511, -4)
+light_energy = 1.8
+shadow_enabled = true
+shadow_opacity = 0.7
+shadow_blur = 2.5
+spot_range = 12.969
+spot_angle = 77.37
+
+[node name="SpotLight3D3" type="SpotLight3D" parent="lights&environment"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -11.1815, 4.23511, -11)
+light_energy = 1.8
+shadow_enabled = true
+shadow_opacity = 0.7
+shadow_blur = 2.5
+spot_range = 12.969
+spot_angle = 77.37
+
+[node name="SpotLight3D4" type="SpotLight3D" parent="lights&environment"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -3.35169, 4.23511, -11)
+light_energy = 1.8
+shadow_enabled = true
+shadow_opacity = 0.7
+shadow_blur = 2.5
+spot_range = 12.969
+spot_angle = 77.37
+
+[node name="SpotLight3D5" type="SpotLight3D" parent="lights&environment"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -7.26658, 4.2352, -7.5)
+light_energy = 1.8
+shadow_enabled = true
+shadow_opacity = 0.7
+shadow_blur = 2.5
+spot_range = 12.969
+spot_angle = 77.37
+
+[node name="SpotLight3D7" type="SpotLight3D" parent="lights&environment"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 5.59664, 4.23511, -4)
+light_energy = 1.8
+shadow_enabled = true
+shadow_opacity = 0.7
+shadow_blur = 2.5
+spot_range = 12.969
+spot_angle = 77.37
+
+[node name="SpotLight3D8" type="SpotLight3D" parent="lights&environment"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 5.59664, 4.23511, -11)
+light_energy = 1.8
+shadow_enabled = true
+shadow_opacity = 0.7
+shadow_blur = 2.5
+spot_range = 12.969
+spot_angle = 77.37
+
+[node name="SpotLight3D11" type="SpotLight3D" parent="lights&environment"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 1.12248, 4.235, -7.5)
+light_energy = 1.8
+shadow_enabled = true
+shadow_opacity = 0.7
+shadow_blur = 2.5
+spot_range = 12.969
+spot_angle = 77.37
+
+[node name="Sun" type="DirectionalLight3D" parent="lights&environment"]
 transform = Transform3D(0.939693, 0.241845, -0.241845, 0, 0.707107, 0.707107, 0.34202, -0.664463, 0.664463, 5, 6, 5)
 shadow_enabled = true
 
-[node name="Skybox" type="WorldEnvironment" parent="."]
+[node name="Skybox" type="WorldEnvironment" parent="lights&environment"]
 environment = SubResource("Environment_spktv")
 
-[node name="Floor" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, -0.1, -7.5)
+[node name="Node3D" type="Node3D" parent="lights&environment"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 2.823, -7.5)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+[node name="ceil" type="MeshInstance3D" parent="lights&environment/Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.00292, 0)
+cast_shadow = 3
+lod_bias = 0.001
+mesh = SubResource("BoxMesh_bfbbd")
+skeleton = NodePath("../../..")
+
+[node name="Collision" type="Node3D" parent="."]
+
+[node name="ground" type="StaticBody3D" parent="Collision"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collision/ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7.5)
 shape = SubResource("BoxShape3D_dn33t")
 
-[node name="Walls collision" type="StaticBody3D" parent="."]
+[node name="Walls collision" type="StaticBody3D" parent="Collision"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Walls collision"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 1.2, -7.5)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Collision/Walls collision"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.8, 1.2, -7.5)
 shape = SubResource("BoxShape3D_sb2jc")
 
-[node name="CollisionShape3D2" type="CollisionShape3D" parent="Walls collision"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Collision/Walls collision"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.8, 1.2, -7.5)
 shape = SubResource("BoxShape3D_sb2jc")
 
-[node name="CollisionShape3D3" type="CollisionShape3D" parent="Walls collision"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 1.2, -14.8)
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="Collision/Walls collision"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, -14.8)
 shape = SubResource("BoxShape3D_tnh8w")
 
-[node name="CollisionShape3D4" type="CollisionShape3D" parent="Walls collision"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 1.2, -0.2)
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="Collision/Walls collision"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 1.2, -0.2)
 shape = SubResource("BoxShape3D_tnh8w")
 
-[node name="ceil" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 2.823, -7.5)
-cast_shadow = 3
-lod_bias = 0.001
-mesh = SubResource("BoxMesh_ununo")
+[node name="Shelves" type="StaticBody3D" parent="Collision"]
 
-[node name="lights" type="Node3D" parent="."]
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="Collision/Shelves"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.5, 1.2, -14.3)
+shape = SubResource("BoxShape3D_67d4t")
 
-[node name="SpotLight3D" type="SpotLight3D" parent="lights"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -4, 4.23511, -4)
-light_energy = 2.432
-spot_range = 12.969
-spot_angle = 77.37
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="Collision/Shelves"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -6, 1.2, -7.5)
+shape = SubResource("BoxShape3D_ccv1c")
 
-[node name="SpotLight3D2" type="SpotLight3D" parent="lights"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -11, 4.23511, -4)
-light_energy = 2.432
-spot_range = 12.969
-spot_angle = 77.37
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="Collision/Shelves"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -3, 1.2, -7.5)
+shape = SubResource("BoxShape3D_ccv1c")
 
-[node name="SpotLight3D3" type="SpotLight3D" parent="lights"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -11, 4.23511, -11)
-light_energy = 2.432
-spot_range = 12.969
-spot_angle = 77.37
-
-[node name="SpotLight3D4" type="SpotLight3D" parent="lights"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -4, 4.23511, -11)
-light_energy = 2.432
-spot_range = 12.969
-spot_angle = 77.37
-
-[node name="SpotLight3D5" type="SpotLight3D" parent="lights"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -7.5, 4.2352, -7.5)
-light_energy = 2.432
-spot_range = 12.969
-spot_angle = 77.37
+[node name="CollisionShape3D6" type="CollisionShape3D" parent="Collision/Shelves"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -12, 1.2, -9)
+shape = SubResource("BoxShape3D_a48k3")

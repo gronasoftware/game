@@ -12,8 +12,10 @@ public partial class Player : CharacterBase
     public override void _PhysicsProcess(double delta)
     {
         ProcessInput((float)delta);
-        CalculateVelocity((float)delta);
         CalculateDirection();
+        CalculateVelocity((float)delta);
+        
+
         // https://ask.godotengine.org/25922/how-to-get-3d-position-of-the-mouse-cursor
 
         var camera = GetViewport().GetCamera3D();
@@ -148,7 +150,7 @@ public partial class Player : CharacterBase
 
     private void CalculateDirection()
     {
-        direction = new Vector3(inputDir.X, 0, inputDir.Y).Normalized();
+        direction = new Vector3(inputDir.X, 0, inputDir.Y).Normalized().Rotated(Vector3.Up, -Mathf.Pi/4f);
     }
     #endregion
 }
