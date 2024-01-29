@@ -14,7 +14,6 @@ public partial class Player : CharacterBase
         ProcessInput((float)delta);
         CalculateDirection();
         CalculateVelocity((float)delta);
-        
 
         // https://ask.godotengine.org/25922/how-to-get-3d-position-of-the-mouse-cursor
 
@@ -150,7 +149,9 @@ public partial class Player : CharacterBase
 
     private void CalculateDirection()
     {
-        direction = new Vector3(inputDir.X, 0, inputDir.Y).Normalized().Rotated(Vector3.Up, -Mathf.Pi/4f);
+        direction = new Vector3(inputDir.X, 0, inputDir.Y)
+            .Normalized()
+            .Rotated(Vector3.Up, -Mathf.Pi / 4f);
     }
     #endregion
 }
